@@ -1,0 +1,208 @@
+import { createContext } from '@lit/context';
+import {
+  assign,
+  ContextFrom,
+  StateFrom,
+  createActor,
+  setup,
+  assertEvent,
+} from 'xstate';
+
+import { Field, fields, ScanId, FEATURE_KEYS, Feature } from '../scan.types.js';
+import * as ScanSelections from './scan-selections.js';
+
+export type PlotParameter = 'leftBiomarker' | 'bottomBiomarker';
+export type ScanClicked = {
+  type: 'SCAN_CLICKED';
+  id: ScanId;
+};
+export type FeatureViewId = string;
+
+function decodeFromBinary(str: string): string {
+  return decodeURIComponent(
+    Array.prototype.map
+      .call(atob(str), function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
+}
+
+function encodeToBinary(str: string): string {
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (_, p1) {
+      return String.fromCharCode(parseInt(p1, 16));
+    }),
+  );
+}
+
+type Context = {
+  scanSelectionsPool: ScanSelections.ScanSelectionsPool;
+  features: Record<FeatureViewId, Feature>;
+  featureViewCount: number;
+  plotParameters: { leftBiomarker: Field; bottomBiomarker: Field };
+  focusScan?: { id: ScanId }; // fresh object every event
+};
+
+const machine = setup({
+  types: {} as {
+    events:
+      | {
+          type: 'PLOT_PARAMETER_CHANGED';
+          parameter: PlotParameter;
+          value: Field;
+        }
+      | ScanClicked
+      | {
+          type: 'FEATURE_SELECT';
+          featureViewId: FeatureViewId;
+          feature: Feature;
+        }
+      | {
+          type: 'FEATURE_ADD';
+        }
+      | {
+          type: 'FEATURE_REMOVE';
+          featureViewId: FeatureViewId;
+        }
+      | {
+          type: 'FOCUS_SCAN';
+          id: ScanId;
+        };
+    context: Context;
+    input: Partial<Context>;
+  },
+  actions: {
+    toggleScanSelected: assign({
+      scanSelectionsPool: ({
+        context: { scanSelectionsPool: scanSelection },
+        event,
+      }) => {
+        assertEvent(event, 'SCAN_CLICKED');
+        const { id } = event;
+        return ScanSelections.toggle(id, scanSelection);
+      },
+    }),
+
+    assignFeature: assign({
+      features: ({ context: { features }, event }) => {
+        assertEvent(event, 'FEATURE_SELECT');
+        const { featureViewId, feature } = event;
+        if (!FEATURE_KEYS.includes(feature)) return features;
+        return Object.assign({}, features, { [featureViewId]: feature });
+      },
+    }),
+
+    addFeature: assign({
+      featureViewCount: ({ context: { featureViewCount } }) =>
+        featureViewCount + 1,
+      features: ({ context: { features, featureViewCount } }) => ({
+        ...features,
+        [featureViewCount + 1]: FEATURE_KEYS[0],
+      }),
+    }),
+
+    removeFeature: assign({
+      features: ({ context: { features }, event }) => {
+        assertEvent(event, 'FEATURE_REMOVE');
+        const { featureViewId } = event;
+        const { [featureViewId]: _, ...keep } = features;
+        return keep;
+      },
+    }),
+
+    assignParameter: assign({
+      plotParameters: ({ context: { plotParameters }, event }) => {
+        assertEvent(event, 'PLOT_PARAMETER_CHANGED');
+        const { parameter, value } = event;
+        return {
+          ...plotParameters,
+          [parameter]: value,
+        };
+      },
+    }),
+  },
+}).createMachine({
+  id: 'appApp',
+
+  context: ({ input }: { input: Partial<Context> | undefined }) => {
+    return {
+      scanSelectionsPool: ScanSelections.createSelectionPool(),
+      featureViewCount: 1,
+      features: { '1': FEATURE_KEYS[0] }, // selected features to view
+      plotParameters: {
+        leftBiomarker: fields[0],
+        bottomBiomarker: fields[1],
+      },
+      ...input,
+    };
+  },
+
+  initial: 'running',
+  states: {
+    running: {
+      on: {
+        PLOT_PARAMETER_CHANGED: { actions: 'assignParameter' },
+        SCAN_CLICKED: { actions: 'toggleScanSelected' },
+        FEATURE_SELECT: { actions: 'assignFeature' },
+        FEATURE_ADD: { actions: 'addFeature' },
+        FEATURE_REMOVE: { actions: 'removeFeature' },
+        FOCUS_SCAN: {
+          actions: [assign({ focusScan: ({ event }) => ({ id: event.id }) })],
+        },
+      },
+    },
+  },
+});
+export type AppMachine = typeof machine;
+
+type AppService = ReturnType<typeof createService>;
+
+function contextToJson(c: ContextFrom<typeof machine>) {
+  return c;
+}
+
+function jsonToContext(json: any): ContextFrom<typeof machine> {
+  return json;
+}
+
+const STATE_KEY = 'state';
+
+export function saveState(state: StateFrom<AppMachine>) {
+  const json = JSON.stringify(contextToJson(state.context));
+
+  window.history.replaceState(
+    null,
+    '',
+    `?${STATE_KEY}=${encodeToBinary(json)}`,
+  );
+}
+
+function getSavedState() {
+  const stateFromURL = new URL(document.location.href).searchParams.get(
+    STATE_KEY,
+  );
+  if (stateFromURL) {
+    try {
+      const json = JSON.parse(decodeFromBinary(stateFromURL));
+      return jsonToContext(json);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
+export const createService = () => {
+  const context = getSavedState();
+
+  const service = createActor(machine, { input: context }).start();
+  service.subscribe((state) => saveState(state));
+  return service;
+};
+
+export interface AppContext {
+  service: AppService;
+}
+
+export const appContext = createContext<AppContext>('appService');
