@@ -30,6 +30,8 @@ import {
 } from './state/scan-selections.js';
 import { connectState } from './utils/select-state.js';
 
+const DATA_FILE = 'NSCLCR01Radiogenomic_DATA_LABELS_2018-05-22_1500-FD.csv';
+
 interface RowValueBase {
   id: ScanId;
 }
@@ -47,6 +49,8 @@ type RowValue = UnSelectedRowValue | SelectedRowValue;
 
 class LargeDataModel extends DataModel {
   scanSelections: ScanSelections;
+  tableData: Record<string, string>[] = [];
+
   constructor(scanSelection: ScanSelections) {
     super();
     this.scanSelections = scanSelection;
@@ -60,26 +64,40 @@ class LargeDataModel extends DataModel {
     return region === 'body' ? fields.length : 1;
   }
 
+  getRowId(row: number) {
+    return this.tableData[row]?.['Case ID'];
+  }
+
+  getRowNumber(id: ScanId) {
+    return this.tableData.findIndex((row) => row['Case ID'] === id);
+  }
+
   data(
     region: DataModel.CellRegion,
     row: number,
     column: number,
   ): RowValue | string {
     if (region === 'row-header') {
-      const id = `${row}`;
+      const id = this.getRowId(row);
       const color = get(id, this.scanSelections)?.color;
       return {
         id,
         ...(color ? { selected: true, color } : { selected: false }),
       };
     }
+    const columnName = fields[column];
     if (region === 'column-header') {
-      return `${fields[column]}`;
+      return columnName;
     }
     if (region === 'corner-header') {
       return ``;
     }
-    return `(${row}, ${column})`;
+    // scan rows with actual data
+    if (row >= this.tableData.length) {
+      return '';
+    }
+    const cell = this.tableData[row][columnName];
+    return cell;
   }
 
   setSelectedScanIds(newSelection: ScanSelections) {
@@ -94,7 +112,7 @@ class LargeDataModel extends DataModel {
   }
 
   private scanUpdated(id: ScanId) {
-    const row = Number(id);
+    const row = this.getRowNumber(id);
     this.emitChanged({
       type: 'cells-changed',
       region: 'body',
@@ -111,6 +129,23 @@ class LargeDataModel extends DataModel {
       column: 0,
       columnSpan: 1,
     });
+  }
+
+  setTableData(data: Record<string, string>[]) {
+    this.tableData = data;
+    for (let i = 0; i < data.length; i++) {
+      // const row = data[i];
+      for (let j = 0; j < fields.length; j++) {
+        this.emitChanged({
+          type: 'cells-changed',
+          region: 'body',
+          row: i,
+          rowSpan: 1,
+          column: j,
+          columnSpan: 1,
+        });
+      }
+    }
   }
 }
 
@@ -573,7 +608,7 @@ export class ScanTable extends LitElement {
     const checkboxRenderer = new CheckboxRenderer({});
     const scanSelectionRenderer = new TextRenderer({
       backgroundColor: ({ row }) => {
-        const id = row.toString();
+        const id = this.dataModel.getRowId(row);
         return (
           (this.scanSelection.value &&
             get(id, this.scanSelection.value)?.color) ??
@@ -592,6 +627,27 @@ export class ScanTable extends LitElement {
     Widget.attach(this._wrapper, this.renderRoot as HTMLElement);
 
     ro.observe(this);
+
+    this.loadRows(DATA_FILE);
+  }
+
+  loadRows(path: string) {
+    fetch(path)
+      .then((response) => response.text())
+      .then((text) => {
+        const rows = text.split('\n');
+        const table: Record<string, string>[] = [];
+        const headers = rows[0].split(',');
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i].split(',');
+          const obj: Record<string, string> = {};
+          for (let j = 0; j < row.length; j++) {
+            obj[headers[j]] = row[j];
+          }
+          table.push(obj);
+        }
+        this.dataModel.setTableData(table);
+      });
   }
 
   disconnectedCallback() {
