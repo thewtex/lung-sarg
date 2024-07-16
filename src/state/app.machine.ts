@@ -8,7 +8,14 @@ import {
   assertEvent,
 } from 'xstate';
 
-import { Field, fields, ScanId, FEATURE_KEYS, Feature } from '../scan.types.js';
+import {
+  Field,
+  fields,
+  ScanId,
+  FEATURE_KEYS,
+  Feature,
+  AddPatientFields,
+} from '../scan.types.js';
 import * as ScanSelections from './scan-selections.js';
 
 export type PlotParameter = 'leftBiomarker' | 'bottomBiomarker';
@@ -42,6 +49,7 @@ type Context = {
   featureViewCount: number;
   plotParameters: { leftBiomarker: Field; bottomBiomarker: Field };
   focusScan?: { id: ScanId }; // fresh object every event
+  scans: AddPatientFields[];
 };
 
 const machine = setup({
@@ -68,6 +76,10 @@ const machine = setup({
       | {
           type: 'FOCUS_SCAN';
           id: ScanId;
+        }
+      | {
+          type: 'PATIENT_ADD';
+          fields: AddPatientFields;
         };
     context: Context;
     input: Partial<Context>;
@@ -121,9 +133,17 @@ const machine = setup({
         };
       },
     }),
+
+    addPatient: assign({
+      scans: ({ context: { scans }, event }) => {
+        assertEvent(event, 'PATIENT_ADD');
+        const { fields } = event;
+        return [...scans, fields];
+      },
+    }),
   },
 }).createMachine({
-  id: 'appApp',
+  id: 'app',
 
   context: ({ input }: { input: Partial<Context> | undefined }) => {
     return {
@@ -134,6 +154,7 @@ const machine = setup({
         leftBiomarker: fields[0],
         bottomBiomarker: fields[1],
       },
+      scans: [],
       ...input,
     };
   },
@@ -150,13 +171,14 @@ const machine = setup({
         FOCUS_SCAN: {
           actions: [assign({ focusScan: ({ event }) => ({ id: event.id }) })],
         },
+        PATIENT_ADD: { actions: 'addPatient' },
       },
     },
   },
 });
 export type AppMachine = typeof machine;
 
-type AppService = ReturnType<typeof createService>;
+export type AppService = ReturnType<typeof createService>;
 
 function contextToJson(c: ContextFrom<typeof machine>) {
   return c;

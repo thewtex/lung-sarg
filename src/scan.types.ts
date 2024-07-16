@@ -94,6 +94,8 @@ export const fields = createKeys({
   'PET Date': 1,
 });
 
+export type AddPatientFields = Scan & { file: string };
+
 export const FEATURES = {
   ct: {
     name: 'CT',
