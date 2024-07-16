@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-// import '@material/web/labs/navigationdrawer/navigation-drawer.js';
 import '@material/web/iconbutton/filled-icon-button.js';
 
 import { isOnPath, PAGES } from './pages';
@@ -25,7 +24,6 @@ export class NavMenu extends LitElement {
 
   render() {
     return html`
-      <!-- <md-navigation-drawer .opened=${this.opened}> -->
       <div class="nav-items">
         ${Object.entries(PAGES)
           .map(([page, values]) => ({
@@ -43,7 +41,6 @@ export class NavMenu extends LitElement {
             `;
           })}
       </div>
-      <!-- </md-navigation-drawer> -->
     `;
   }
 

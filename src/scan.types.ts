@@ -95,17 +95,21 @@ export const fields = createKeys({
 });
 
 export const FEATURES = {
-  rawMri: {
-    name: 'Machine Output',
-    long: 'Raw image from the MRI machine',
+  ct: {
+    name: 'CT',
+    long: 'Computed Tomography',
   },
-  cartilageThickness: {
-    name: 'Cartilage Thickness',
-    long: '3D model of the cartilage color mapped with local thickness',
+  pet: {
+    name: 'PET',
+    long: 'Positron Emission Tomography',
   },
-  volumeCartilage: {
-    name: 'Volume Cartilage',
-    long: 'Segmented cartilage in the MRI',
+  mri: {
+    name: 'MRI',
+    long: 'Magnetic Resonance Imaging',
+  },
+  dx: {
+    name: 'XRay',
+    long: 'Lungs',
   },
 } as const;
 

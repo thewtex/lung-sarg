@@ -7,8 +7,8 @@ import './scan-table.js';
 import './scan-views.js';
 
 const SECTIONS = [
-  { title: 'Scan Table', tag: literal`scan-table` },
-  { title: 'Features', tag: literal`scan-views` },
+  { title: 'Patients', tag: literal`scan-table` },
+  { title: 'Images', tag: literal`scan-views` },
 ];
 
 @customElement('individual-root')

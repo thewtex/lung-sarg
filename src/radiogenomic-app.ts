@@ -18,7 +18,7 @@ import './individual-root.js';
 import './processing-root.js';
 import { PAGES } from './pages.js';
 
-const APP_TITLE = 'Radiogenomic Scans' as const;
+const APP_TITLE = 'Radiogenomic' as const;
 
 @customElement('radiogenomic-app')
 export class RadiogenomicApp extends LitElement {

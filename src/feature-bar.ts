@@ -10,7 +10,12 @@ import { Feature, FEATURES } from './scan.types.js';
 
 @customElement('feature-bar')
 export class FeatureBar extends LitElement {
-  @property() feature!: Feature;
+  @property() feature: Feature;
+
+  constructor() {
+    super();
+    this.feature = Object.keys(FEATURES)[0] as Feature;
+  }
 
   clickHandler() {
     const event = new Event('feature-close', { bubbles: true, composed: true });

@@ -7,7 +7,7 @@ import './scan-table.js';
 import './upload-scans.js';
 
 const SECTIONS = [
-  { title: 'Scan Table', tag: literal`scan-table` },
+  { title: 'Patients', tag: literal`scan-table` },
   { title: 'Upload Scans', tag: literal`upload-scans` },
 ];
 

@@ -7,9 +7,9 @@ import './scan-table.js';
 import './scan-views.js';
 
 const SECTIONS = [
-  { title: 'Scan Table', tag: literal`scan-table` },
-  { title: 'Biomarker Charts', tag: literal`biomarker-charts` },
-  { title: 'Features', tag: literal`scan-views` },
+  { title: 'Patients', tag: literal`scan-table` },
+  { title: 'Charts', tag: literal`biomarker-charts` },
+  { title: 'Images', tag: literal`scan-views` },
 ];
 
 @customElement('population-root')
