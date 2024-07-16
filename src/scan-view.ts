@@ -12,6 +12,8 @@ import '@shoelace-style/shoelace/dist/components/card/card.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js';
+import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
 
 import { Feature } from './scan.types.js';
 import { ScanSelection } from './state/scan-selections.js';
@@ -38,7 +40,7 @@ export class ScanView extends LitElement {
 
   async updateImage() {
     const url = new URL(
-      'https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0079A/9836998.zarr',
+      'https://dandiarchive.s3.amazonaws.com/zarr/7723d02f-1f71-4553-a7b0-47bda1ae8b42',
     );
     const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(url);
     const viewerActor = this.viewer.value?.getActor();

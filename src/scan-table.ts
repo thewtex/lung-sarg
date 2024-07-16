@@ -19,7 +19,7 @@ import { Platform } from '@lumino/domutils';
 import luminoStyles from '@lumino/default-theme/style/index.css?inline';
 import { Drag } from '@lumino/dragdrop';
 
-import { appContext, AppContext, AppService } from './state/app.machine.js';
+import { appContext, AppContext } from './state/app.machine.js';
 import { fields, ScanId } from './scan.types.js';
 import {
   Color,
@@ -29,7 +29,6 @@ import {
   ScanSelections,
 } from './state/scan-selections.js';
 import { connectState } from './utils/select-state.js';
-import { Subscription } from 'xstate';
 
 const DATA_FILE = 'NSCLCR01Radiogenomic_DATA_LABELS_2018-05-22_1500-FD.csv';
 
@@ -672,7 +671,7 @@ export class ScanTable extends LitElement {
     const selection = this.scanSelection.value;
     if (selection) this.dataModel.setSelectedScanIds(selection);
     const focus = this.scanFocus.value?.id;
-    if (focus) this._grid.scrollToCell(Number(focus), 0);
+    if (focus) this._grid.scrollToCell(this.dataModel.getRowNumber(focus), 0);
   }
 
   static styles = [
