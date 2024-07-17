@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+// import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   resolve: {
@@ -14,13 +14,13 @@ export default defineConfig({
   },
   plugins: [
     // collect lazy loaded JavaScript and Wasm bundles in public directory
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'node_modules/.pnpm/@itk-viewer+blosc-zarr@0.1.3/node_modules/@itk-viewer/blosc-zarr/emscripten-build/*',
-          dest: 'pipelines',
-        },
-      ],
-    }),
+    //   viteStaticCopy({
+    //     targets: [
+    //       {
+    //         src: 'node_modules/.pnpm/@itk-viewer+blosc-zarr@0.1.3/node_modules/@itk-viewer/blosc-zarr/emscripten-build/*',
+    //         dest: 'pipelines',
+    //       },
+    //     ],
+    //   }),
   ],
 });
