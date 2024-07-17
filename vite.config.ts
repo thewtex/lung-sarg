@@ -2,6 +2,9 @@ import { defineConfig } from 'vite';
 // import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
+  build: {
+    target: 'es2022',
+  },
   resolve: {
     alias: {
       '~@lumino': 'node_modules/@lumino',

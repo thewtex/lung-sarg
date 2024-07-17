@@ -19,6 +19,17 @@ import { Feature } from './scan.types.js';
 import { ScanSelection } from './state/scan-selections.js';
 import { appContext } from './state/app.machine.js';
 
+const featureToImage = {
+  ct: 'https://dandiarchive.s3.amazonaws.com/zarr/7723d02f-1f71-4553-a7b0-47bda1ae8b42',
+  pet: 'https://dandiarchive.s3.amazonaws.com/zarr/7723d02f-1f71-4553-a7b0-47bda1ae8b42',
+  mri: 'https://dandiarchive.s3.amazonaws.com/zarr/7723d02f-1f71-4553-a7b0-47bda1ae8b42',
+  dx: 'https://dandiarchive.s3.amazonaws.com/zarr/7723d02f-1f71-4553-a7b0-47bda1ae8b42',
+} as const;
+
+const getImage = (feature: Feature) => {
+  return featureToImage[feature];
+};
+
 @customElement('scan-view')
 export class ScanView extends LitElement {
   @property() scan!: ScanSelection;
@@ -39,9 +50,8 @@ export class ScanView extends LitElement {
   }
 
   async updateImage() {
-    const url = new URL(
-      'https://dandiarchive.s3.amazonaws.com/zarr/7723d02f-1f71-4553-a7b0-47bda1ae8b42',
-    );
+    const path = getImage(this.feature);
+    const url = new URL(path);
     const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(url);
     const viewerActor = this.viewer.value?.getActor();
     viewerActor?.send({ type: 'setImage', image: zarrImage });
