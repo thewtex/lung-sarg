@@ -8,6 +8,7 @@ import './scan-views.js';
 
 const SECTIONS = [
   { title: 'Patients', tag: literal`scan-table` },
+  { title: 'Charts', tag: literal`biomarker-charts` },
   { title: 'Images', tag: literal`scan-views` },
 ];
 
