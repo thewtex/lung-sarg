@@ -6,6 +6,7 @@ import {
   createActor,
   setup,
   assertEvent,
+  enqueueActions,
 } from 'xstate';
 
 import {
@@ -17,6 +18,7 @@ import {
   AddPatientFields,
 } from '../scan.types.js';
 import * as ScanSelections from './scan-selections.js';
+import { Page, getPage } from '../pages.js';
 
 export type PlotParameter = 'leftBiomarker' | 'bottomBiomarker';
 export type ScanClicked = {
@@ -44,12 +46,15 @@ function encodeToBinary(str: string): string {
 }
 
 type Context = {
+  populationScanSelectionsPool: ScanSelections.ScanSelectionsPool;
+  individualScanSelectionsPool: ScanSelections.ScanSelectionsPool;
   scanSelectionsPool: ScanSelections.ScanSelectionsPool;
   features: Record<FeatureViewId, Feature>;
   featureViewCount: number;
   plotParameters: { leftBiomarker: Field; bottomBiomarker: Field };
   focusScan?: { id: ScanId }; // fresh object every event
   scans: AddPatientFields[];
+  page: Page;
 };
 
 const machine = setup({
@@ -80,6 +85,10 @@ const machine = setup({
       | {
           type: 'PATIENT_ADD';
           fields: AddPatientFields;
+        }
+      | {
+          type: 'NAVIGATE';
+          page: Page;
         };
     context: Context;
     input: Partial<Context>;
@@ -141,13 +150,47 @@ const machine = setup({
         return [...scans, fields];
       },
     }),
+
+    assignPage: assign({
+      page: ({ event }) => {
+        assertEvent(event, 'NAVIGATE');
+        const { page } = event;
+        return page;
+      },
+    }),
+
+    updateScanSelectionPool: assign({
+      scanSelectionsPool: ({
+        context: {
+          populationScanSelectionsPool,
+          individualScanSelectionsPool,
+          page,
+        },
+      }) => {
+        if (page === 'individual') {
+          return individualScanSelectionsPool;
+        }
+        return populationScanSelectionsPool;
+      },
+    }),
+  },
+  guards: {
+    onIndividualPage: ({ context: { page } }) => page === 'individual',
   },
 }).createMachine({
   id: 'app',
 
   context: ({ input }: { input: Partial<Context> | undefined }) => {
+    const populationScanSelectionsPool = ScanSelections.createSelectionPool(
+      ScanSelections.POPULATION_SELECT_COLORS,
+    );
+
     return {
-      scanSelectionsPool: ScanSelections.createSelectionPool(),
+      scanSelectionsPool: populationScanSelectionsPool,
+      populationScanSelectionsPool,
+      individualScanSelectionsPool: ScanSelections.createSelectionPool(
+        ScanSelections.INDIVIDUAL_SELECT_COLORS,
+      ),
       featureViewCount: 1,
       features: { '1': FEATURE_KEYS[0] }, // selected features to view
       plotParameters: {
@@ -155,6 +198,7 @@ const machine = setup({
         bottomBiomarker: fields[1],
       },
       scans: [],
+      page: getPage(),
       ...input,
     };
   },
@@ -162,9 +206,25 @@ const machine = setup({
   initial: 'running',
   states: {
     running: {
+      entry: ['updateScanSelectionPool'],
       on: {
         PLOT_PARAMETER_CHANGED: { actions: 'assignParameter' },
-        SCAN_CLICKED: { actions: 'toggleScanSelected' },
+        SCAN_CLICKED: {
+          actions: [
+            'toggleScanSelected',
+            enqueueActions(({ context, enqueue, check }) => {
+              if (check('onIndividualPage')) {
+                enqueue.assign({
+                  individualScanSelectionsPool: context.scanSelectionsPool,
+                });
+              } else {
+                enqueue.assign({
+                  populationScanSelectionsPool: context.scanSelectionsPool,
+                });
+              }
+            }),
+          ],
+        },
         FEATURE_SELECT: { actions: 'assignFeature' },
         FEATURE_ADD: { actions: 'addFeature' },
         FEATURE_REMOVE: { actions: 'removeFeature' },
@@ -172,6 +232,9 @@ const machine = setup({
           actions: [assign({ focusScan: ({ event }) => ({ id: event.id }) })],
         },
         PATIENT_ADD: { actions: 'addPatient' },
+        NAVIGATE: {
+          actions: ['assignPage', 'updateScanSelectionPool'],
+        },
       },
     },
   },

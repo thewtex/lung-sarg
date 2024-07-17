@@ -1,12 +1,13 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { Routes } from '@lit-labs/router';
 import '@material/web/iconbutton/filled-icon-button.js';
 
-import { isOnPath, PAGES } from './pages';
-import { Routes } from '@lit-labs/router';
+import { isOnPath, PAGES, Page } from './pages.js';
+import { ContextConsumer } from '@lit/context';
+import { appContext } from './state/app.machine.js';
 
-type Pages = keyof typeof PAGES;
-const pagesToIcons: Record<Pages, string> = {
+const pagesToIcons: Record<Page, string> = {
   population: 'groups',
   individual: 'person',
   processing: 'cloud_upload',
@@ -22,17 +23,27 @@ export class NavMenu extends LitElement {
   @property() routes!: Routes;
   @property() location = ''; // trigger rerender on route change
 
+  public stateService = new ContextConsumer(this, appContext, undefined, true);
+
+  handleClick(page: Page) {
+    this.stateService.value?.service.send({ type: 'NAVIGATE', page });
+  }
+
   render() {
     return html`
       <div class="nav-items">
         ${Object.entries(PAGES)
           .map(([page, values]) => ({
-            icon: pagesToIcons[page as Pages],
+            icon: pagesToIcons[page as Page],
+            page: page as Page,
             ...values,
           }))
-          .map(({ icon, path, title }) => {
+          .map(({ icon, path, title, page }) => {
             return html`
-              <a href=${this.routes.link(path)}>
+              <a
+                href=${this.routes.link(path)}
+                @click=${() => this.handleClick(page)}
+              >
                 <md-filled-icon-button toggle .selected=${isOnPath(path)}>
                   <md-icon>${icon}</md-icon>
                 </md-filled-icon-button>
