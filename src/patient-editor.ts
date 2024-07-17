@@ -4,12 +4,14 @@ import { ContextConsumer } from '@lit/context';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 
 import { appContext } from './state/app.machine.js';
-import { AddPatientFields, fields } from './scan.types.js';
+import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
 
-const formFields = fields.map(
-  (name) => html`
-    <label for=${name}>${name}</label>
-    <input id=${name} name=${name} type="text" />
+const formFields = Object.entries(scanFieldInputTypes).map(
+  ([name, type]) => html`
+    <div>
+      <label for=${name}>${name}</label>
+      <input id=${name} name=${name} type="${type}" />
+    </div>
   `,
 );
 
@@ -36,8 +38,10 @@ export class ProcessingRoot extends LitElement {
         <h2>Add Patient</h2>
         <form @submit=${this.handleSubmit}>
           ${formFields}
-          <label for="file">Scan File</label>
-          <input id="file" name="file" type="file" />
+          <div>
+            <label for="file">Scan File</label>
+            <input id="file" name="file" type="file" />
+          </div>
           <div>
             <sl-button type="submit">Add Patient</sl-button>
             <span hidden=${!this.patientAdded || nothing}>Patient Added!</span>

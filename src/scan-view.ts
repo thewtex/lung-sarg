@@ -75,7 +75,7 @@ export class ScanView extends LitElement {
               class="focus-scan"
               style=${styleMap(selectionColor)}
               @click="${this.focusScan}"
-              >Scan: ${this.scan.id}</md-elevated-button
+              >Case ID: ${this.scan.id}</md-elevated-button
             >`
           : undefined}
       </div>

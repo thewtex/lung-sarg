@@ -43,6 +43,49 @@ export interface Scan {
   'PET Date': string;
 }
 
+export const scanFieldInputTypes = {
+  'Case ID': 'text',
+  'Patient affiliation': 'text',
+  'Age at Histological Diagnosis': 'number',
+  'Weight (lbs)': 'number',
+  Gender: 'text',
+  Ethnicity: 'text',
+  'Smoking status': 'text',
+  'Pack Years': 'number',
+  'Quit Smoking Year': 'number',
+  '%GG': 'number',
+  'Tumor Location (choice=RUL)': 'checkbox',
+  'Tumor Location (choice=RML)': 'checkbox',
+  'Tumor Location (choice=RLL)': 'checkbox',
+  'Tumor Location (choice=LUL)': 'checkbox',
+  'Tumor Location (choice=LLL)': 'checkbox',
+  'Tumor Location (choice=L Lingula)': 'checkbox',
+  'Tumor Location (choice=Unknown)': 'checkbox',
+  Histology: 'text',
+  'Pathological T stage': 'text',
+  'Pathological N stage': 'text',
+  'Pathological M stage': 'text',
+  'Histopathological Grade': 'text',
+  'Lymphovascular invasion': 'text',
+  'Pleural invasion (elastic, visceral, or parietal)': 'text',
+  'EGFR mutation status': 'text',
+  'KRAS mutation status': 'text',
+  'ALK translocation status': 'text',
+  'Adjuvant Treatment': 'text',
+  Chemotherapy: 'text',
+  Radiation: 'text',
+  Recurrence: 'text',
+  'Recurrence Location': 'text',
+  'Date of Recurrence': 'date',
+  'Date of Last Known Alive': 'date',
+  'Survival Status': 'text',
+  'Date of Death': 'date',
+  'Time to Death (days)': 'number',
+  'CT Date': 'date',
+  'Days between CT and surgery': 'number',
+  'PET Date': 'date',
+};
+
 export type Field = keyof Scan;
 
 // Make runtime array of fields
