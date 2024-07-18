@@ -4,11 +4,12 @@ import { literal } from 'lit/static-html.js';
 
 import './accordion-layout.js';
 import './scan-table.js';
-import './scan-views.js';
+import './all-scans.js';
 
 const SECTIONS = [
   { title: 'Patients', tag: literal`scan-table` },
-  { title: 'Images', tag: literal`scan-views` },
+  { title: 'Charts', tag: literal`biomarker-charts` },
+  { title: 'Images', tag: literal`all-scans` },
 ];
 
 @customElement('individual-root')

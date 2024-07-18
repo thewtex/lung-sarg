@@ -596,6 +596,7 @@ export class ScanTable extends LitElement {
         columnHeaderHeight: 32,
       },
     });
+
     const dataModel = new LargeDataModel(this.scanSelection.value!);
     this.dataModel = dataModel;
 
@@ -646,6 +647,17 @@ export class ScanTable extends LitElement {
           }
           table.push(obj);
         }
+
+        // add new patients
+        const snapshot = this.stateService.value!.service.getSnapshot();
+        const addedScans = snapshot.context.scans;
+        addedScans.forEach((scan) => {
+          const obj = Object.fromEntries(
+            Object.entries(scan).map(([k, v]) => [k, v.toString()]),
+          );
+          table.push(obj);
+        });
+
         this.dataModel.setTableData(table);
       });
   }
@@ -659,7 +671,7 @@ export class ScanTable extends LitElement {
     const selection = this.scanSelection.value;
     if (selection) this.dataModel.setSelectedScanIds(selection);
     const focus = this.scanFocus.value?.id;
-    if (focus) this._grid.scrollToCell(Number(focus), 0);
+    if (focus) this._grid.scrollToCell(this.dataModel.getRowNumber(focus), 0);
   }
 
   static styles = [

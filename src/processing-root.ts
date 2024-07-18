@@ -1,20 +1,11 @@
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { literal } from 'lit/static-html.js';
-
-import './accordion-layout.js';
-import './scan-table.js';
-import './upload-scans.js';
-
-const SECTIONS = [
-  { title: 'Patients', tag: literal`scan-table` },
-  { title: 'Upload Scans', tag: literal`upload-scans` },
-];
+import './patient-editor.js';
 
 @customElement('processing-root')
 export class ProcessingRoot extends LitElement {
   render() {
-    return html` <accordion-layout .sections=${SECTIONS}></accordion-layout> `;
+    return html` <patient-editor></patient-editor>`;
   }
 }
 

@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@itk-viewer/element':
-        specifier: ^0.3.0
-        version: 0.3.0(@babel/preset-env@7.24.6)(@material/web@1.5.0)(autoprefixer@10.4.19)(webpack@5.91.0)(wslink@2.0.4)
+        specifier: ^0.6.0
+        version: 0.6.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@material/web@1.5.0)(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
       '@itk-viewer/io':
-        specifier: ^0.1.8
-        version: 0.1.8
+        specifier: ^0.4.2
+        version: 0.4.2
       '@lit-labs/router':
         specifier: ^0.1.3
         version: 0.1.3
@@ -65,10 +65,10 @@ importers:
         version: 5.4.5
       vite:
         specifier: ^5.2.11
-        version: 5.2.12
+        version: 5.2.12(@types/node@20.12.12)(terser@5.31.0)
       vite-plugin-static-copy:
         specifier: ^1.0.5
-        version: 1.0.5(vite@5.2.12)
+        version: 1.0.5(vite@5.2.12(@types/node@20.12.12)(terser@5.31.0))
 
 packages:
 
@@ -829,31 +829,34 @@ packages:
   '@itk-viewer/arcball@0.0.1':
     resolution: {integrity: sha512-TpXNoKAOtmpVVULUbytEVLyGTjgtpAuitNLXRY5Avf6+Tcsiogj7Im+a7J9Jr2Vr6lGS4fp4B6Pd1hwKotW0vw==}
 
-  '@itk-viewer/blosc-zarr@0.1.3':
-    resolution: {integrity: sha512-O8REh/T8M99ADtE0Cr17FvhJtt++8MLP6giGcAaH35gbNqpMVJeg0gI2444HQplaJ4xicoeVrU5B0ja58+OfJA==}
+  '@itk-viewer/blosc-zarr@0.2.2':
+    resolution: {integrity: sha512-9bfG7DhttdNu7otCW4LJoOZO3WNOfVciP0F96JQfJlqyHFxnMwNn0jofcy8SpHOKqOu1nzMOYwdu/Lm7ZwuhoQ==}
 
-  '@itk-viewer/element@0.3.0':
-    resolution: {integrity: sha512-UUgrJ6k+tQphj+YJOMJLZUqnVSuZmzu7sYKNm3O2TE2e3Bjxp6duia5Qu2P+cLbtdF5kMN3mKckdVdy7FUUbqw==}
+  '@itk-viewer/element@0.6.0':
+    resolution: {integrity: sha512-9EpLni/d5SJXUDpk/nwswgWpY07HDoee8l93y2dGMQ3SDr/kOdsLoG2xhh4pITLbvnUF1lbIIz7zSItviePyuQ==}
     peerDependencies:
       '@material/web': ^1.3.0
     peerDependenciesMeta:
       '@material/web':
         optional: true
 
-  '@itk-viewer/io@0.1.8':
-    resolution: {integrity: sha512-soewY9nbLq0Z8HK2U8mdfzNZtmRPZbxcmzl7HWYdpmCu1cn5pp2y3cZsARjKTnuzsXrRr0DzfV29cBiJg21H8A==}
+  '@itk-viewer/io@0.4.2':
+    resolution: {integrity: sha512-eT0o5rUeqb5uUIX0rN37GuPT2o+GZi4A72h1zhh2l43Y4PbKxE5ZgEIMJwUbSxOMPBJwoC7J9416cPzu29vP5w==}
 
-  '@itk-viewer/remote-viewport@0.2.13':
-    resolution: {integrity: sha512-FYRNDpCrqsle/RUGSo0ot+skUYhfQz6zpL1/pjFwe6LDRnGyMMJuciTJfRiqhL32hsNSyFH3lKX7W4+PpXC2dQ==}
+  '@itk-viewer/remote-viewport@0.2.19':
+    resolution: {integrity: sha512-4tBiWLkvVpX2+aGi8+cdEauqC+T7Chc0DYNsyiPYKbwKdwVEZCAp1iyGV80DPEJ5Nt9IFUDV6WOS/W/fG1wsEw==}
+
+  '@itk-viewer/transfer-function-editor@1.8.0':
+    resolution: {integrity: sha512-t+BJCe1CW333Q0SmRumd5vefPWPMQRw0vUHvQuxSngqa7CFXR3qrJtG5txXeIVt5Jl/YWl2WfNMcV6MGkH66MA==}
 
   '@itk-viewer/utils@0.1.3':
     resolution: {integrity: sha512-2liw+6wvTRI/eDqPAwVmi+lPT6vj9YiAMt2qdEirc4b6Lg4WpYdsExgaYVgYM9hJpH71xo2DkIlAn7ns2pPF9A==}
 
-  '@itk-viewer/viewer@0.3.0':
-    resolution: {integrity: sha512-gp9yIhk4o/QbRh/Ni1PXs2xabRtVB/4cpgWpkvHz9gXN+lJn8gvhaB9pXs5HOolgReiZlFcouciMhSz4j6Rntw==}
+  '@itk-viewer/viewer@0.6.0':
+    resolution: {integrity: sha512-DaeQZYRD02Nd8qtXPbf/zIBo8obDJ4sNKQfusQ9Y2HKA5iqHL/EA4y3zx/l1pogVfQ9A4FaKtv/MF56/OOXMoQ==}
 
-  '@itk-viewer/vtkjs@0.1.0':
-    resolution: {integrity: sha512-tkJKiS4182bTPVLl/ECTqSztojUB3xNMP7QOzIFpvmdHdMtjNNXJaINfsPYc6kilsNhInL34bszQRz7QcPHJoA==}
+  '@itk-viewer/vtkjs@0.4.0':
+    resolution: {integrity: sha512-7frwENRDGNNOe8nkgB0X5GRi28XOwz1EU0t6YEAe+f1r3lqGAvN/UIzWFMkSmDhC6kKG2fVfagArvHn1WG81Cw==}
 
   '@itk-wasm/dam@1.1.1':
     resolution: {integrity: sha512-7+9L3lrLMKF4y6B6qjs8GqfbpxT0waOJUM14NdMNEA6M+BoBS8fdHREhQHo2s7QMA5O7I+Jv7m+dyqlisGnbdQ==}
@@ -3265,28 +3268,30 @@ snapshots:
     dependencies:
       gl-matrix: 3.4.3
 
-  '@itk-viewer/blosc-zarr@0.1.3':
+  '@itk-viewer/blosc-zarr@0.2.2':
     dependencies:
       '@itk-viewer/utils': 0.1.3
       itk-wasm: 1.0.0-b.160
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/element@0.3.0(@babel/preset-env@7.24.6)(@material/web@1.5.0)(autoprefixer@10.4.19)(webpack@5.91.0)(wslink@2.0.4)':
+  '@itk-viewer/element@0.6.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@material/web@1.5.0)(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
     dependencies:
       '@itk-viewer/arcball': 0.0.1
-      '@itk-viewer/io': 0.1.8
-      '@itk-viewer/remote-viewport': 0.2.13
+      '@itk-viewer/io': 0.4.2
+      '@itk-viewer/remote-viewport': 0.2.19
+      '@itk-viewer/transfer-function-editor': 1.8.0
       '@itk-viewer/utils': 0.1.3
-      '@itk-viewer/viewer': 0.3.0
-      '@itk-viewer/vtkjs': 0.1.0(@babel/preset-env@7.24.6)(autoprefixer@10.4.19)(webpack@5.91.0)(wslink@2.0.4)
+      '@itk-viewer/viewer': 0.6.0
+      '@itk-viewer/vtkjs': 0.4.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
       '@lit/context': 1.1.1
-      '@material/web': 1.5.0
       gl-matrix: 3.4.3
       itk-wasm: 1.0.0-b.160
       lit: 3.1.3
       xstate: 5.5.2
       xstate-lit: 2.0.5(@lit/context@1.1.1)(lit@3.1.3)(xstate@5.5.2)
+    optionalDependencies:
+      '@material/web': 1.5.0
     transitivePeerDependencies:
       - '@babel/preset-env'
       - autoprefixer
@@ -3297,9 +3302,9 @@ snapshots:
       - webpack
       - wslink
 
-  '@itk-viewer/io@0.1.8':
+  '@itk-viewer/io@0.4.2':
     dependencies:
-      '@itk-viewer/blosc-zarr': 0.1.3
+      '@itk-viewer/blosc-zarr': 0.2.2
       '@itk-viewer/utils': 0.1.3
       axios: 1.7.2
       comlink: 4.4.1
@@ -3310,11 +3315,11 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/remote-viewport@0.2.13':
+  '@itk-viewer/remote-viewport@0.2.19':
     dependencies:
-      '@itk-viewer/io': 0.1.8
+      '@itk-viewer/io': 0.4.2
       '@itk-viewer/utils': 0.1.3
-      '@itk-viewer/viewer': 0.3.0
+      '@itk-viewer/viewer': 0.6.0
       '@itk-wasm/htj2k': 2.1.0
       gl-matrix: 3.4.3
       imjoy-rpc: 0.5.48
@@ -3325,26 +3330,29 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@itk-viewer/transfer-function-editor@1.8.0': {}
+
   '@itk-viewer/utils@0.1.3':
     dependencies:
       itk-wasm: 1.0.0-b.160
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/viewer@0.3.0':
+  '@itk-viewer/viewer@0.6.0':
     dependencies:
-      '@itk-viewer/io': 0.1.8
+      '@itk-viewer/io': 0.4.2
       '@itk-viewer/utils': 0.1.3
       gl-matrix: 3.4.3
       xstate: 5.5.2
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/vtkjs@0.1.0(@babel/preset-env@7.24.6)(autoprefixer@10.4.19)(webpack@5.91.0)(wslink@2.0.4)':
+  '@itk-viewer/vtkjs@0.4.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
     dependencies:
-      '@itk-viewer/io': 0.1.8
-      '@itk-viewer/viewer': 0.3.0
-      '@kitware/vtk.js': 30.5.1(@babel/preset-env@7.24.6)(autoprefixer@10.4.19)(webpack@5.91.0)(wslink@2.0.4)
+      '@itk-viewer/io': 0.4.2
+      '@itk-viewer/transfer-function-editor': 1.8.0
+      '@itk-viewer/viewer': 0.6.0
+      '@kitware/vtk.js': 30.5.1(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
       gl-matrix: 3.4.3
       xstate: 5.5.2
     transitivePeerDependencies:
@@ -3393,7 +3401,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@kitware/vtk.js@30.5.1(@babel/preset-env@7.24.6)(autoprefixer@10.4.19)(webpack@5.91.0)(wslink@2.0.4)':
+  '@kitware/vtk.js@30.5.1(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
     dependencies:
       '@babel/preset-env': 7.24.6(@babel/core@7.24.6)
       '@babel/runtime': 7.22.11
@@ -4947,21 +4955,23 @@ snapshots:
 
   varint@6.0.0: {}
 
-  vite-plugin-static-copy@1.0.5(vite@5.2.12):
+  vite-plugin-static-copy@1.0.5(vite@5.2.12(@types/node@20.12.12)(terser@5.31.0)):
     dependencies:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       fs-extra: 11.2.0
       picocolors: 1.0.1
-      vite: 5.2.12
+      vite: 5.2.12(@types/node@20.12.12)(terser@5.31.0)
 
-  vite@5.2.12:
+  vite@5.2.12(@types/node@20.12.12)(terser@5.31.0):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.18.0
     optionalDependencies:
+      '@types/node': 20.12.12
       fsevents: 2.3.3
+      terser: 5.31.0
 
   wasm-feature-detect@1.6.1: {}
 

@@ -39,7 +39,7 @@ export class FeatureBar extends LitElement {
     return html`
       <div>
         <md-outlined-select
-          label="Select Feature"
+          label="Select Image"
           .value=${FEATURES[this.feature].name}
           @input=${this.onFeatureInput}
           ${ref(this.featurePicker)}

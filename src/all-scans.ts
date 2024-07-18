@@ -3,12 +3,11 @@ import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 
 import { connectState } from './utils/select-state.js';
-import './feature-bar.js';
 import './scan-view.js';
 import { Feature, FEATURE_KEYS } from './scan.types.js';
 import { compare } from './state/scan-selections.js';
 
-@customElement('feature-scans')
+@customElement('all-scans')
 export class FeatureScans extends LitElement {
   @property() feature: Feature = FEATURE_KEYS[0];
 
@@ -19,38 +18,51 @@ export class FeatureScans extends LitElement {
   );
 
   render() {
+    const scan = this.scans.value?.[0];
+    if (!scan) {
+      return html``;
+    }
     return html`
-      <feature-bar .feature=${this.feature}></feature-bar>
       <div class="scans">
         ${repeat(
-          this.scans.value ?? [],
-          ({ id }) => id,
-          (scan) =>
-            html` <scan-view
-              .scan=${scan}
-              .feature=${this.feature}
-            ></scan-view>`,
+          FEATURE_KEYS,
+          (feature) => feature,
+          (feature) => html`
+            <div>
+              <scan-view .scan=${scan} .feature=${feature}></scan-view>
+              <sl-card>${feature.toUpperCase()}</sl-card>
+            </div>
+          `,
         )}
       </div>
     `;
   }
 
+  // aspect-ratio critical to keep the container from growing when expanding accordion section
   static styles = css`
-    :host {
-      margin-top: 0.4rem;
-      display: flex;
-      flex-direction: column;
-    }
-
     .scans {
       flex: 1;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      height: 100%;
     }
 
     .scans > * {
+      aspect-ratio: 1;
       margin: 0.2rem;
       flex: 1;
+      position: relative;
+    }
+
+    scan-view {
+      height: 100%;
+    }
+
+    sl-card {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0.25rem;
     }
   `;
 }

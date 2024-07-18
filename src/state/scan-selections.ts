@@ -1,18 +1,21 @@
 import { ScanId } from '../scan.types';
 
-const SELECT_COLORS = ['#E69F00', '#93CEF1'] as const;
-export type Color = typeof SELECT_COLORS[number];
+export const POPULATION_SELECT_COLORS = ['#E69F00', '#93CEF1'] as const;
+export const INDIVIDUAL_SELECT_COLORS = ['#66CDAA'] as const;
+export type Color = string;
 export type ScanSelection = { id: ScanId; color: Color };
 export type ScanSelections = Array<ScanSelection>;
 
 export type ScanSelectionsPool = {
   selections: ScanSelections;
   freeColors: Array<Color>;
+  allColors: ReadonlyArray<Color>;
 };
 
-export const createSelectionPool = (): ScanSelectionsPool => ({
+export const createSelectionPool = (colors: readonly Color[]) => ({
   selections: [],
-  freeColors: [...SELECT_COLORS],
+  freeColors: [...colors],
+  allColors: colors,
 });
 
 const findIndex = (id: ScanId, selections: ScanSelections) => {
@@ -21,10 +24,10 @@ const findIndex = (id: ScanId, selections: ScanSelections) => {
 
 export const add = (
   id: ScanId,
-  pool: ScanSelectionsPool
+  pool: ScanSelectionsPool,
 ): ScanSelectionsPool => {
-  const isFull = pool.selections.length >= SELECT_COLORS.length;
-  const { selections, freeColors } = isFull
+  const isFull = pool.selections.length >= pool.allColors.length;
+  const { selections, freeColors, ...rest } = isFull
     ? remove(pool.selections[pool.selections.length - 1].id, pool)
     : pool;
   return {
@@ -33,19 +36,21 @@ export const add = (
       ...selections,
     ],
     freeColors: freeColors.slice(0, freeColors.length - 1),
+    ...rest,
   };
 };
 
 export const remove = (
   id: ScanId,
-  { selections, freeColors }: ScanSelectionsPool
+  { selections, freeColors, ...rest }: ScanSelectionsPool,
 ): ScanSelectionsPool => {
   const idx = findIndex(id, selections);
-  if (idx === -1) return { selections, freeColors };
+  if (idx === -1) return { selections, freeColors, ...rest };
   const { color: freeColor } = selections[idx];
   return {
     selections: [...selections.slice(0, idx), ...selections.slice(idx + 1)],
     freeColors: [freeColor, ...freeColors],
+    ...rest,
   };
 };
 
@@ -54,13 +59,13 @@ export const has = (id: ScanId, selections: ScanSelections): boolean =>
 
 export const toggle = (
   id: ScanId,
-  scans: ScanSelectionsPool
+  scans: ScanSelectionsPool,
 ): ScanSelectionsPool =>
   has(id, scans.selections) ? remove(id, scans) : add(id, scans);
 
 export const get = (
   id: ScanId,
-  selections: ScanSelections
+  selections: ScanSelections,
 ): ScanSelection | undefined => {
   const idx = findIndex(id, selections);
   return idx === -1 ? undefined : selections[idx];
