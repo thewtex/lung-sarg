@@ -19,7 +19,7 @@ export class BiomarkerCharts extends LitElement {
   static styles = css`
     :host {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       grid-auto-flow: column;
       gap: 0.4rem;
     }

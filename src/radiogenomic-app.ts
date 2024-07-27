@@ -3,11 +3,10 @@ import { html } from 'lit/static-html.js';
 import { LitElement, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Router } from '@lit-labs/router';
-// @ts-ignore: Property 'UrlPattern' does not exist
-if (!globalThis.URLPattern) {
-  import('urlpattern-polyfill');
-}
+
 import '@shoelace-style/shoelace/dist/themes/light.css';
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+setBasePath('dist/shoelace');
 
 import { createService, appContext, saveState } from './state/app.machine.js';
 

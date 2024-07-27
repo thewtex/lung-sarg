@@ -1,13 +1,17 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
-import '@material/web/select/outlined-select.js';
-import '@material/web/select/select-option.js';
 
 import { ContextConsumer } from '@lit/context';
 import { appContext, PlotParameter } from './state/app.machine.js';
 import { fields, Scan } from './scan.types.js';
 import { connectState } from './utils/select-state.js';
+
+const undefinedToEmptyString = (s: string | undefined) => s ?? '';
+const spacesToUnderscores = (s: string | undefined) =>
+  undefinedToEmptyString(s).replace(/\s/g, '_');
+const underscoresToSpaces = (s: string | undefined) =>
+  undefinedToEmptyString(s).replace(/_/g, ' ');
 
 @customElement('biomarker-picker')
 export class BiomarkerPicker extends LitElement {
@@ -25,26 +29,26 @@ export class BiomarkerPicker extends LitElement {
     this.stateService.value?.service.send({
       type: 'PLOT_PARAMETER_CHANGED',
       parameter: this.parameter,
-      value: target.value as keyof Scan,
+      value: underscoresToSpaces(target.value) as keyof Scan,
     });
     e.stopPropagation();
   };
 
   render() {
     return html`
-      <md-outlined-select
+      <sl-select
         label=${this.parameter}
-        .value=${this.biomarker.value}
+        .value=${spacesToUnderscores(this.biomarker.value)}
         @input=${this.setPlotParameter}
       >
         ${map(
           fields,
           (field) =>
-            html`<md-select-option value="${field}">
-              <div slot="headline">${field}</div>
-            </md-select-option>`,
+            html`<sl-option value="${spacesToUnderscores(field)}">
+              ${field}
+            </sl-option>`,
         )}
-      </md-outlined-select>
+      </sl-select>
     `;
   }
 

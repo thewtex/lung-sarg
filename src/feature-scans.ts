@@ -46,6 +46,7 @@ export class FeatureScans extends LitElement {
       flex: 1;
       display: flex;
       flex-direction: column;
+      max-height: 100vh;
     }
 
     .scans > * {
