@@ -2,7 +2,10 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ContextConsumer } from '@lit/context';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
+import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import { appContext } from './state/app.machine.js';
 import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
@@ -20,11 +23,23 @@ export class ProcessingRoot extends LitElement {
   @state()
   patientAdded = false;
 
+  nextFileId = 1;
+
+  @state()
+  files = [0];
+
+  removeFile = (id: number) => () => {
+    this.files = this.files.filter((fileId) => fileId !== id);
+  };
+
+  addFile = () => () => {
+    this.files = [...this.files, this.nextFileId++];
+  };
+
   handleSubmit(event: Event) {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const fields = Object.fromEntries(
-      Array.from(formData.entries()).map(([k, v]) => [k, v.toString()]),
+    const fields = serialize(
+      event.target as HTMLFormElement,
     ) as unknown as AddPatientFields;
     this.stateService.value?.service.send({ type: 'PATIENT_ADD', fields });
     this.patientAdded = true;
@@ -36,12 +51,36 @@ export class ProcessingRoot extends LitElement {
         <h2 style="text-align: center">Add Patient</h2>
         <form @submit=${this.handleSubmit}>
           ${formFields}
-          <div class="file-input">
-            <label for="file">Scan File</label>
-            <input id="file" name="file" type="file" />
-          </div>
+          <!-- files -->
           <div class="form-footer">
-            <sl-button type="submit">Add Patient</sl-button>
+            <h2><label for="files">Scan Files</label></h2>
+            ${repeat(
+              this.files,
+              (id) => id,
+              (id) => html`
+                <div class="file-input">
+                  <span>
+                    <sl-input name="files" type="file" />
+                  </span>
+                  <sl-icon-button
+                    @click="${this.removeFile(id)}"
+                    name="x-lg"
+                    label="Delete"
+                    style="font-size: 2rem; padding-left: .5rem"
+                  ></sl-icon-button>
+                </div>
+              `,
+            )}
+            <sl-icon-button
+              @click="${this.addFile()}"
+              name="plus-lg"
+              label="Add"
+              style="font-size: 2rem;"
+            ></sl-icon-button>
+          </div>
+          <!-- submit -->
+          <div class="form-footer" style="padding-top: 1rem">
+            <sl-button type="submit" variant="primary">Add Patient</sl-button>
             <span hidden=${!this.patientAdded || nothing} class="submit-message"
               >Patient Added!</span
             >
@@ -63,10 +102,6 @@ export class ProcessingRoot extends LitElement {
       padding: 1rem;
     }
 
-    .file-input {
-      grid-column: span 2;
-    }
-
     .form-footer {
       grid-column: span 2;
     }
@@ -76,7 +111,6 @@ export class ProcessingRoot extends LitElement {
         grid-template-columns: 1fr 1fr 1fr 1fr;
       }
 
-      .file-input,
       .form-footer {
         grid-column: span 4;
       }
@@ -90,6 +124,11 @@ export class ProcessingRoot extends LitElement {
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 4px;
+    }
+
+    .file-input {
+      display: flex;
+      align-items: center;
     }
 
     .submit-message {
