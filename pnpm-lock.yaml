@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@itk-viewer/element':
-        specifier: ^0.6.0
-        version: 0.6.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@material/web@1.5.0)(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
+        specifier: ^0.6.1
+        version: 0.6.1(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@material/web@1.5.0)(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
       '@itk-viewer/io':
         specifier: ^0.4.2
         version: 0.4.2
@@ -829,8 +829,8 @@ packages:
   '@itk-viewer/blosc-zarr@0.2.2':
     resolution: {integrity: sha512-9bfG7DhttdNu7otCW4LJoOZO3WNOfVciP0F96JQfJlqyHFxnMwNn0jofcy8SpHOKqOu1nzMOYwdu/Lm7ZwuhoQ==}
 
-  '@itk-viewer/element@0.6.0':
-    resolution: {integrity: sha512-9EpLni/d5SJXUDpk/nwswgWpY07HDoee8l93y2dGMQ3SDr/kOdsLoG2xhh4pITLbvnUF1lbIIz7zSItviePyuQ==}
+  '@itk-viewer/element@0.6.1':
+    resolution: {integrity: sha512-SJFmFo/FvEvdSXjPiggWkeD1NQt30JwaflAbvM7fFAjHzhkHSAVHvs/kqbn8qoKDtAWd7Ykzu4FNpVHcaZ/Kyg==}
     peerDependencies:
       '@material/web': ^1.3.0
     peerDependenciesMeta:
@@ -852,8 +852,8 @@ packages:
   '@itk-viewer/viewer@0.6.0':
     resolution: {integrity: sha512-DaeQZYRD02Nd8qtXPbf/zIBo8obDJ4sNKQfusQ9Y2HKA5iqHL/EA4y3zx/l1pogVfQ9A4FaKtv/MF56/OOXMoQ==}
 
-  '@itk-viewer/vtkjs@0.4.0':
-    resolution: {integrity: sha512-7frwENRDGNNOe8nkgB0X5GRi28XOwz1EU0t6YEAe+f1r3lqGAvN/UIzWFMkSmDhC6kKG2fVfagArvHn1WG81Cw==}
+  '@itk-viewer/vtkjs@0.4.1':
+    resolution: {integrity: sha512-J+2D9/d4n/jD43GulznDU9N9qCWLPSUUyqmF/X6GrhRdDZGFtWohcw1WWQLj+M7WfMBTki4J2YC0sBNaIDf0fw==}
 
   '@itk-wasm/dam@1.1.1':
     resolution: {integrity: sha512-7+9L3lrLMKF4y6B6qjs8GqfbpxT0waOJUM14NdMNEA6M+BoBS8fdHREhQHo2s7QMA5O7I+Jv7m+dyqlisGnbdQ==}
@@ -3272,7 +3272,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/element@0.6.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@material/web@1.5.0)(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
+  '@itk-viewer/element@0.6.1(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@material/web@1.5.0)(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
     dependencies:
       '@itk-viewer/arcball': 0.0.1
       '@itk-viewer/io': 0.4.2
@@ -3280,7 +3280,7 @@ snapshots:
       '@itk-viewer/transfer-function-editor': 1.8.0
       '@itk-viewer/utils': 0.1.3
       '@itk-viewer/viewer': 0.6.0
-      '@itk-viewer/vtkjs': 0.4.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
+      '@itk-viewer/vtkjs': 0.4.1(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)
       '@lit/context': 1.1.1
       gl-matrix: 3.4.3
       itk-wasm: 1.0.0-b.160
@@ -3344,7 +3344,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/vtkjs@0.4.0(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
+  '@itk-viewer/vtkjs@0.4.1(@babel/preset-env@7.24.6(@babel/core@7.24.6))(autoprefixer@10.4.19(postcss@8.4.38))(webpack@5.91.0)(wslink@2.0.4)':
     dependencies:
       '@itk-viewer/io': 0.4.2
       '@itk-viewer/transfer-function-editor': 1.8.0
