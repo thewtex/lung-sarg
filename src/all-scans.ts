@@ -29,8 +29,9 @@ export class FeatureScans extends LitElement {
           (feature) => feature,
           (feature) => html`
             <div>
-              <scan-view .scan=${scan} .feature=${feature}></scan-view>
-              <sl-card>${feature.toUpperCase()}</sl-card>
+              <scan-view .scan=${scan} .feature=${feature}>
+                <div class="feature-label">${feature.toUpperCase()}</div>
+              </scan-view>
             </div>
           `,
         )}
@@ -58,11 +59,8 @@ export class FeatureScans extends LitElement {
       height: 100%;
     }
 
-    sl-card {
-      position: absolute;
-      top: 0;
-      right: 0;
-      margin: 0.25rem;
+    .feature-label {
+      text-align: center;
     }
   `;
 }

@@ -2,9 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { ref, createRef } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
-import '@material/web/iconbutton/icon-button.js';
-import '@material/web/select/outlined-select.js';
-import '@material/web/select/select-option.js';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
 import { Feature, FEATURES } from './scan.types.js';
 
@@ -38,25 +37,24 @@ export class FeatureBar extends LitElement {
   render() {
     return html`
       <div>
-        <md-outlined-select
-          label="Select Image"
+        <sl-select
           .value=${FEATURES[this.feature].name}
           @input=${this.onFeatureInput}
           ${ref(this.featurePicker)}
         >
           ${map(
             Object.values(FEATURES),
-            ({ name, long }) =>
-              html`<md-select-option value="${name}">
-                <div slot="headline">${name}</div>
-                <div slot="supporting-text">${long}</div>
-              </md-select-option>`,
+            ({ name }) =>
+              html`<sl-option value="${name}"> ${name} </sl-option>`,
           )}
-        </md-outlined-select>
+        </sl-select>
       </div>
-      <md-icon-button @click="${this.clickHandler}" style="padding: 1rem">
-        <md-icon>close</md-icon>
-      </md-icon-button>
+      <sl-icon-button
+        @click="${this.clickHandler}"
+        name="x-lg"
+        label="Close"
+        style="font-size: 2rem; padding-left: .5rem"
+      ></sl-icon-button>
     `;
   }
 
@@ -66,8 +64,6 @@ export class FeatureBar extends LitElement {
       display: flex;
       justify-content: center;
       align-items: center;
-
-      --md-outlined-autocomplete-text-field-container-height: 36px;
     }
   `;
 }

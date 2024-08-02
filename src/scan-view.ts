@@ -3,7 +3,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { ContextConsumer } from '@lit/context';
-import '@material/web/button/elevated-button.js';
 
 import { ZarrMultiscaleSpatialImage } from '@itk-viewer/io/ZarrMultiscaleSpatialImage.js';
 import { ItkViewer2d } from '@itk-viewer/element/itk-viewer-2d.js';
@@ -65,19 +64,29 @@ export class ScanView extends LitElement {
 
   render() {
     const selectionColor = {
-      '--md-elevated-button-container-color': this.scan?.color,
+      background: this.scan?.color,
     };
     return html`
       <div class="viewport">
         <itk-viewer-2d ${ref(this.viewer)}></itk-viewer-2d>
-        ${this.scan
-          ? html`<md-elevated-button
-              class="focus-scan"
+        <sl-card class="focus-scan">
+          <slot></slot>
+          ${this.scan
+            ? html`<sl-button
               style=${styleMap(selectionColor)}
               @click="${this.focusScan}"
-              >Case ID: ${this.scan.id}</md-elevated-button
-            >`
-          : undefined}
+            >
+                <div slot="prefix" class="dot-container">
+                  <div
+                    class="color-dot"
+                    style=${styleMap(selectionColor)}
+                  ></div>
+                </div>
+              </slot>
+              Case ID: ${this.scan.id}
+            </sl-button>`
+            : undefined}
+        </sl-card>
       </div>
     `;
   }
@@ -105,11 +114,18 @@ export class ScanView extends LitElement {
     .focus-scan {
       position: absolute;
       top: 0.2rem;
-      left: 0.2rem;
+      right: 0.2rem;
     }
 
-    md-elevated-button {
-      --md-elevated-button-label-text-color: black;
+    .dot-container {
+      width: 1.5rem;
+      display: inline-block;
+    }
+
+    .color-dot {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 1.5rem;
     }
   `;
 }

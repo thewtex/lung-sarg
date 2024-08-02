@@ -1,16 +1,17 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Routes } from '@lit-labs/router';
-import '@material/web/iconbutton/filled-icon-button.js';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 import { isOnPath, PAGES, Page } from './pages.js';
 import { ContextConsumer } from '@lit/context';
 import { appContext } from './state/app.machine.js';
 
 const pagesToIcons: Record<Page, string> = {
-  population: 'groups',
+  population: 'people',
   individual: 'person',
-  processing: 'cloud_upload',
+  processing: 'person-add',
 };
 
 /**
@@ -44,9 +45,15 @@ export class NavMenu extends LitElement {
                 href=${this.routes.link(path)}
                 @click=${() => this.handleClick(page)}
               >
-                <md-filled-icon-button toggle .selected=${isOnPath(path)}>
-                  <md-icon>${icon}</md-icon>
-                </md-filled-icon-button>
+                <sl-icon-button
+                  name=${icon}
+                  label=${title}
+                  class="${isOnPath(path) ? 'selected' : ''}"
+                  size="large"
+                  variant="primary"
+                  circle
+                  style="font-size: 2.5rem;"
+                ></sl-icon-button>
                 <div style="padding-top: .5rem">${title}</div>
               </a>
             `;
@@ -56,15 +63,6 @@ export class NavMenu extends LitElement {
   }
 
   static styles = css`
-    md-navigation-drawer {
-      height: 100%;
-      --md-navigation-drawer-container-width: 120px;
-      --md-navigation-drawer-container-color: var(--text-primary);
-      --md-navigation-drawer-container-shape-start-end: 0;
-      --md-navigation-drawer-container-shape-end-end: 0;
-      overflow: auto;
-    }
-
     :host {
       background-color: var(--text-primary);
     }
@@ -84,6 +82,21 @@ export class NavMenu extends LitElement {
       align-items: center;
       margin-bottom: 2rem;
       color: var(--text-white);
+    }
+
+    sl-icon-button::part(base) {
+      color: var(--primary-color-light);
+      background-color: white;
+    }
+    sl-icon-button::part(base):hover {
+      color: var(--primary-color);
+    }
+    sl-icon-button.selected::part(base) {
+      color: white;
+      background-color: var(--primary-color);
+    }
+    sl-icon-button.selected::part(base):hover {
+      color: lightgray;
     }
   `;
 }

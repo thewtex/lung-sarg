@@ -1,6 +1,5 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import '@material/web/iconbutton/icon-button.js';
 
 @customElement('top-app-bar')
 export class TopAppBar extends LitElement {
@@ -9,13 +8,12 @@ export class TopAppBar extends LitElement {
   render() {
     return html`
       <div>
-        <md-standard-icon-button-toggle
-          .isOn=${this.isMenuOpen}
+        <sl-icon-button
           @click="${this._clickHandler}"
-          onIcon="close"
-          offIcon="menu"
-        >
-        </md-standard-icon-button-toggle>
+          name="add"
+          label="add"
+          style="font-size: 2.5rem;"
+        ></sl-icon-button>
       </div>
       <h1>${this.title}</h1>
     `;

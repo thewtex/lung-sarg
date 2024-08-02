@@ -1,8 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
-import '@material/web/iconbutton/icon-button.js';
-import '@material/web/icon/icon.js';
 
 import { compareObjects, connectState } from './utils/select-state.js';
 import './feature-scans.js';
@@ -63,9 +61,12 @@ export class ScanViews extends LitElement {
             fill: Object.keys(this.features.value ?? {}).length === 0,
           })}"
         >
-          <md-icon-button @click="${this.addHandler}">
-            <md-icon>add</md-icon>
-          </md-icon-button>
+          <sl-icon-button
+            @click="${this.addHandler}"
+            name="plus-lg"
+            label="add"
+            style="font-size: 2.5rem;"
+          ></sl-icon-button>
         </div>
       </div>
     `;

@@ -2,18 +2,19 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ContextConsumer } from '@lit/context';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import { appContext } from './state/app.machine.js';
 import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
 
-const formFields = Object.entries(scanFieldInputTypes).map(
-  ([name, type]) => html`
-    <div>
-      <label for=${name}>${name}</label>
-      <input id=${name} name=${name} type="${type}" />
-    </div>
-  `,
-);
+const formFields = Object.entries(scanFieldInputTypes).map(([name, type]) => {
+  return html`
+    <sl-input name=${name} type="${type}" label=${name}></sl-input>
+  `;
+});
 
 @customElement('patient-editor')
 export class ProcessingRoot extends LitElement {
@@ -22,11 +23,23 @@ export class ProcessingRoot extends LitElement {
   @state()
   patientAdded = false;
 
+  nextFileId = 1;
+
+  @state()
+  files = [0];
+
+  removeFile = (id: number) => () => {
+    this.files = this.files.filter((fileId) => fileId !== id);
+  };
+
+  addFile = () => () => {
+    this.files = [...this.files, this.nextFileId++];
+  };
+
   handleSubmit(event: Event) {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const fields = Object.fromEntries(
-      Array.from(formData.entries()).map(([k, v]) => [k, v.toString()]),
+    const fields = serialize(
+      event.target as HTMLFormElement,
     ) as unknown as AddPatientFields;
     this.stateService.value?.service.send({ type: 'PATIENT_ADD', fields });
     this.patientAdded = true;
@@ -35,16 +48,42 @@ export class ProcessingRoot extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h2>Add Patient</h2>
+        <h2 style="text-align: center">Add Patient</h2>
         <form @submit=${this.handleSubmit}>
           ${formFields}
-          <div>
-            <label for="file">Scan File</label>
-            <input id="file" name="file" type="file" />
+          <!-- files -->
+          <div class="form-footer">
+            <h2><label for="files">Scan Files</label></h2>
+            ${repeat(
+              this.files,
+              (id) => id,
+              (id) => html`
+                <div class="file-input">
+                  <span>
+                    <sl-input name="files" type="file" />
+                  </span>
+                  <sl-icon-button
+                    @click="${this.removeFile(id)}"
+                    name="x-lg"
+                    label="Delete"
+                    style="font-size: 2rem; padding-left: .5rem"
+                  ></sl-icon-button>
+                </div>
+              `,
+            )}
+            <sl-icon-button
+              @click="${this.addFile()}"
+              name="plus-lg"
+              label="Add"
+              style="font-size: 2rem;"
+            ></sl-icon-button>
           </div>
-          <div>
-            <sl-button type="submit">Add Patient</sl-button>
-            <span hidden=${!this.patientAdded || nothing}>Patient Added!</span>
+          <!-- submit -->
+          <div class="form-footer" style="padding-top: 1rem">
+            <sl-button type="submit" variant="primary">Add Patient</sl-button>
+            <span hidden=${!this.patientAdded || nothing} class="submit-message"
+              >Patient Added!</span
+            >
           </div>
         </form>
       </div>
@@ -57,34 +96,43 @@ export class ProcessingRoot extends LitElement {
     }
 
     form {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
       padding: 1rem;
     }
+
+    .form-footer {
+      grid-column: span 2;
+    }
+
+    @media (min-width: 1400px) {
+      form {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+
+      .form-footer {
+        grid-column: span 4;
+      }
+    }
+
     label {
       font-weight: bold;
     }
+
     input {
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    button {
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 4px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      width: fit-content;
-    }
-    button:hover {
-      background-color: #0056b3;
+
+    .file-input {
+      display: flex;
+      align-items: center;
     }
 
-    span {
-      margin-left: 1rem;
+    .submit-message {
+      padding-left: 1rem;
     }
   `;
 }
