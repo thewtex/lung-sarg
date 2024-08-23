@@ -1,20 +1,17 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import { repeat } from 'lit/directives/repeat.js';
 import { ContextConsumer } from '@lit/context';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
 import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
-import { repeat } from 'lit/directives/repeat.js';
 
 import { appContext } from './state/app.machine.js';
 import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
-
-const formFields = Object.entries(scanFieldInputTypes).map(([name, type]) => {
-  return html`
-    <sl-input name=${name} type="${type}" label=${name}></sl-input>
-  `;
-});
+import { spacesToUnderscores } from './utils/shoelace.js';
 
 @customElement('patient-editor')
 export class ProcessingRoot extends LitElement {
@@ -27,6 +24,46 @@ export class ProcessingRoot extends LitElement {
 
   @state()
   files = [0];
+
+  formFields: TemplateResult[] = [];
+
+  constructor() {
+    super();
+    this.formFields = scanFieldInputTypes.map((field) => {
+      const { type, name } = field;
+      if (type === 'select') {
+        const { default: firstValue, options } = field;
+        return html`
+          <sl-select
+            name=${name}
+            label=${name}
+            value=${spacesToUnderscores(firstValue)}
+          >
+            ${options.map(
+              (option) => html`
+                <sl-option value=${spacesToUnderscores(option)}>
+                  ${option}
+                </sl-option>
+              `,
+            )}
+          </sl-select>
+        `;
+      }
+      if (type === 'number' || type === 'text') {
+        return html`
+          <sl-input
+            name=${name}
+            type=${type}
+            value=${field.default}
+            label=${name}
+          ></sl-input>
+        `;
+      }
+      return html`
+        <sl-input name=${name} type=${type} label=${name}></sl-input>
+      `;
+    });
+  }
 
   removeFile = (id: number) => () => {
     this.files = this.files.filter((fileId) => fileId !== id);
@@ -50,7 +87,7 @@ export class ProcessingRoot extends LitElement {
       <div class="container">
         <h2 style="text-align: center">Add Patient</h2>
         <form @submit=${this.handleSubmit}>
-          ${formFields}
+          ${this.formFields}
           <!-- files -->
           <div class="form-footer">
             <h2><label for="files">Scan Files</label></h2>
@@ -60,7 +97,7 @@ export class ProcessingRoot extends LitElement {
               (id) => html`
                 <div class="file-input">
                   <span>
-                    <sl-input name="files" type="file" />
+                    <sl-input name="files" type="file" /></sl-input>
                   </span>
                   <sl-icon-button
                     @click="${this.removeFile(id)}"
