@@ -1,4 +1,4 @@
-import { LitElement, TemplateResult, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { ContextConsumer } from '@lit/context';
@@ -7,6 +7,7 @@ import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
 
 import { appContext } from './state/app.machine.js';
@@ -31,6 +32,14 @@ export class ProcessingRoot extends LitElement {
     super();
     this.formFields = scanFieldInputTypes.map((field) => {
       const { type, name } = field;
+      if (type === 'checkbox') {
+        return html`
+          <div>
+            <div>${name}</div>
+            <sl-checkbox name=${name}></sl-checkbox>
+          </div>
+        `;
+      }
       if (type === 'select') {
         const { default: firstValue, options } = field;
         return html`
@@ -118,7 +127,7 @@ export class ProcessingRoot extends LitElement {
           <!-- submit -->
           <div class="form-footer" style="padding-top: 1rem">
             <sl-button type="submit" variant="primary">Add Patient</sl-button>
-            <span hidden=${!this.patientAdded || nothing} class="submit-message"
+            <span .hidden=${!this.patientAdded} class="submit-message"
               >Patient Added!</span
             >
           </div>
