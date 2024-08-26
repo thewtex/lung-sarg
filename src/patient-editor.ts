@@ -1,6 +1,6 @@
 import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { repeat } from 'lit/directives/repeat.js';
+import { ref, createRef } from 'lit/directives/ref.js';
 import { ContextConsumer } from '@lit/context';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
@@ -13,6 +13,8 @@ import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
 import { appContext } from './state/app.machine.js';
 import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
 import { spacesToUnderscores } from './utils/shoelace.js';
+import './local-images.js';
+import { LocalImages } from './local-images.js';
 
 const validateId = (id: string) => {
   //if id has numbers, then return true
@@ -54,12 +56,8 @@ export class ProcessingRoot extends LitElement {
   @state()
   patientAdded = false;
 
-  nextFileId = 1;
-
-  @state()
-  files = [0];
-
   formFields: TemplateResult[] = [];
+  images = createRef<LocalImages>();
 
   constructor() {
     super();
@@ -118,20 +116,13 @@ export class ProcessingRoot extends LitElement {
     });
   }
 
-  removeFile = (id: number) => () => {
-    this.files = this.files.filter((fileId) => fileId !== id);
-  };
-
-  addFile = () => () => {
-    this.files = [...this.files, this.nextFileId++];
-  };
-
   handleSubmit(event: Event) {
     event.preventDefault();
     const fields = serialize(
       event.target as HTMLFormElement,
     ) as unknown as AddPatientFields;
     this.stateService.value?.service.send({ type: 'PATIENT_ADD', fields });
+    // console.log(this.images.value?.getFiles());
     this.patientAdded = true;
   }
 
@@ -141,41 +132,17 @@ export class ProcessingRoot extends LitElement {
         <h2 style="text-align: center">Add Study Data for Patient</h2>
         <form @submit=${this.handleSubmit}>
           ${this.formFields}
-          <!-- files -->
           <div class="form-footer">
-            <h2><label for="files">Images</label></h2>
-            ${repeat(
-              this.files,
-              (id) => id,
-              (id) => html`
-                <div class="file-input">
-                  <span>
-                    <sl-input name="files" type="file" /></sl-input>
-                  </span>
-                  <sl-icon-button
-                    @click="${this.removeFile(id)}"
-                    name="x-lg"
-                    label="Delete"
-                    style="font-size: 2rem; padding-left: .5rem"
-                  ></sl-icon-button>
-                </div>
-              `,
-            )}
-            <sl-icon-button
-              @click="${this.addFile()}"
-              name="plus-lg"
-              label="Add"
-              style="font-size: 2rem;"
-            ></sl-icon-button>
+            <local-images ${ref(this.images)}></local-images>
           </div>
           <!-- submit -->
           <div class="form-footer" style="padding-top: 1rem">
-            <sl-button type="submit" variant="primary"
-              >Add Study Data for Patient</sl-button
-            >
-            <span .hidden=${!this.patientAdded} class="submit-message"
-              >Patient Added!</span
-            >
+            <sl-button type="submit" variant="primary">
+              Add Study Data for Patient
+            </sl-button>
+            <span .hidden=${!this.patientAdded} class="submit-message">
+              Patient Added!
+            </span>
           </div>
         </form>
       </div>
@@ -206,21 +173,6 @@ export class ProcessingRoot extends LitElement {
       .form-footer {
         grid-column: span 4;
       }
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input {
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .file-input {
-      display: flex;
-      align-items: center;
     }
 
     .submit-message {
