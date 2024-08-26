@@ -1,7 +1,7 @@
 export type ScanId = string;
 
 export interface Scan {
-  'Case ID': ScanId;
+  'Patient ID': ScanId;
   'Patient affiliation': string;
   'Age at Histological Diagnosis': number;
   'Weight (lbs)': number;
@@ -44,21 +44,21 @@ export interface Scan {
 }
 
 export const scanFieldInputTypes = [
-  { name: 'Case ID', type: 'text', default: 'AMC-001' },
+  { name: 'Patient ID', type: 'text' },
   {
     name: 'Patient affiliation',
     type: 'text',
-    default: 'Stanford',
+    default: '',
   },
   {
     name: 'Age at Histological Diagnosis',
     type: 'number',
-    default: 67,
+    default: '',
   },
   {
     name: 'Weight (lbs)',
     type: 'number',
-    default: '0',
+    default: '',
   },
   {
     name: 'Gender',
@@ -88,12 +88,12 @@ export const scanFieldInputTypes = [
   {
     name: 'Pack Years',
     type: 'number',
-    default: 50,
+    default: '',
   },
   {
     name: 'Quit Smoking Year',
     type: 'number',
-    default: 1994,
+    default: '',
   },
   {
     name: '%GG',
@@ -249,7 +249,7 @@ export const scanFieldInputTypes = [
   {
     name: 'Time to Death (days)',
     type: 'number',
-    default: 6,
+    default: '',
   },
   {
     name: 'CT Date',
@@ -258,7 +258,7 @@ export const scanFieldInputTypes = [
   {
     name: 'Days between CT and surgery',
     type: 'number',
-    default: 6.0,
+    default: '',
   },
   {
     name: 'PET Date',
@@ -275,7 +275,7 @@ function createKeys(keyRecord: Record<keyof Scan, any>): (keyof Scan)[] {
 }
 
 export const fields = createKeys({
-  'Case ID': 1,
+  'Patient ID': 1,
   'Patient affiliation': 1,
   'Age at Histological Diagnosis': 1,
   'Weight (lbs)': 1,

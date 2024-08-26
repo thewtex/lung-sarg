@@ -14,6 +14,10 @@ const pagesToIcons: Record<Page, string> = {
   processing: 'person-add',
 };
 
+const buttonLabel = {
+  processing: 'Add Data',
+};
+
 /**
  * List of page links
  *
@@ -37,9 +41,10 @@ export class NavMenu extends LitElement {
           .map(([page, values]) => ({
             icon: pagesToIcons[page as Page],
             page: page as Page,
+            label: buttonLabel[page as 'processing'] ?? values.title,
             ...values,
           }))
-          .map(({ icon, path, title, page }) => {
+          .map(({ icon, path, page, label }) => {
             return html`
               <a
                 href=${this.routes.link(path)}
@@ -47,14 +52,13 @@ export class NavMenu extends LitElement {
               >
                 <sl-icon-button
                   name=${icon}
-                  label=${title}
                   class="${isOnPath(path) ? 'selected' : ''}"
                   size="large"
                   variant="primary"
                   circle
                   style="font-size: 2.5rem;"
                 ></sl-icon-button>
-                <div style="padding-top: .5rem">${title}</div>
+                <div style="padding-top: .5rem">${label}</div>
               </a>
             `;
           })}

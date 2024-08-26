@@ -12,7 +12,7 @@ export const PAGES = {
     tag: literal`individual-root`,
   },
   processing: {
-    title: 'Add Patient',
+    title: 'Add Study Data for Patient',
     path: '/processing',
     tag: literal`processing-root`,
   },

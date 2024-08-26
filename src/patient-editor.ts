@@ -14,6 +14,39 @@ import { appContext } from './state/app.machine.js';
 import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
 import { spacesToUnderscores } from './utils/shoelace.js';
 
+const validateId = (id: string) => {
+  //if id has numbers, then return true
+  if (/\d/.test(id)) {
+    return true;
+  }
+  const words = id.split(' ').filter(Boolean);
+  if (
+    words.length >= 1 &&
+    words.every(
+      (word) =>
+        word[0] === word[0].toUpperCase() &&
+        // probably not name if second character is uppercase
+        (word.length < 2 || word[1] !== word[1].toUpperCase()),
+    )
+  ) {
+    return false; // ID is likely a human name
+  }
+  return true;
+};
+
+const handleInput = (event: Event) => {
+  const inputElement = event.target as HTMLInputElement;
+  const value = inputElement.value;
+
+  if (!validateId(value)) {
+    inputElement.setCustomValidity('ID can not be a patients name.');
+  } else {
+    inputElement.setCustomValidity('');
+  }
+
+  inputElement.reportValidity();
+};
+
 @customElement('patient-editor')
 export class ProcessingRoot extends LitElement {
   stateService = new ContextConsumer(this, appContext, undefined, true);
@@ -32,6 +65,17 @@ export class ProcessingRoot extends LitElement {
     super();
     this.formFields = scanFieldInputTypes.map((field) => {
       const { type, name } = field;
+      if (name === 'Patient ID') {
+        const date = new Date().toISOString().split('T')[0];
+        const caseId = `${date}-${Math.floor(Math.random() * 1000)}`;
+        return html`<sl-input
+          name=${name}
+          type=${type}
+          value=${caseId}
+          label=${name}
+          @input=${handleInput}
+        ></sl-input>`;
+      }
       if (type === 'checkbox') {
         return html`
           <div>
@@ -63,7 +107,7 @@ export class ProcessingRoot extends LitElement {
           <sl-input
             name=${name}
             type=${type}
-            value=${field.default}
+            value=${field?.default}
             label=${name}
           ></sl-input>
         `;
@@ -94,12 +138,12 @@ export class ProcessingRoot extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h2 style="text-align: center">Add Patient</h2>
+        <h2 style="text-align: center">Add Study Data for Patient</h2>
         <form @submit=${this.handleSubmit}>
           ${this.formFields}
           <!-- files -->
           <div class="form-footer">
-            <h2><label for="files">Scan Files</label></h2>
+            <h2><label for="files">Images</label></h2>
             ${repeat(
               this.files,
               (id) => id,
@@ -126,7 +170,9 @@ export class ProcessingRoot extends LitElement {
           </div>
           <!-- submit -->
           <div class="form-footer" style="padding-top: 1rem">
-            <sl-button type="submit" variant="primary">Add Patient</sl-button>
+            <sl-button type="submit" variant="primary"
+              >Add Study Data for Patient</sl-button
+            >
             <span .hidden=${!this.patientAdded} class="submit-message"
               >Patient Added!</span
             >

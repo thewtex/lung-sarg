@@ -83,7 +83,7 @@ export class ScanView extends LitElement {
                   ></div>
                 </div>
               </slot>
-              Case ID: ${this.scan.id}
+              Patient ID: ${this.scan.id}
             </sl-button>`
             : undefined}
         </sl-card>
