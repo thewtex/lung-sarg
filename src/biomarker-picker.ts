@@ -6,12 +6,7 @@ import { ContextConsumer } from '@lit/context';
 import { appContext, PlotParameter } from './state/app.machine.js';
 import { fields, Scan } from './scan.types.js';
 import { connectState } from './utils/select-state.js';
-
-const undefinedToEmptyString = (s: string | undefined) => s ?? '';
-const spacesToUnderscores = (s: string | undefined) =>
-  undefinedToEmptyString(s).replace(/\s/g, '_');
-const underscoresToSpaces = (s: string | undefined) =>
-  undefinedToEmptyString(s).replace(/_/g, ' ');
+import { spacesToUnderscores, underscoresToSpaces } from './utils/shoelace.js';
 
 @customElement('biomarker-picker')
 export class BiomarkerPicker extends LitElement {

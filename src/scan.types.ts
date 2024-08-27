@@ -1,7 +1,7 @@
 export type ScanId = string;
 
 export interface Scan {
-  'Case ID': ScanId;
+  'Patient ID': ScanId;
   'Patient affiliation': string;
   'Age at Histological Diagnosis': number;
   'Weight (lbs)': number;
@@ -43,48 +43,228 @@ export interface Scan {
   'PET Date': string;
 }
 
-export const scanFieldInputTypes = {
-  'Case ID': 'text',
-  'Patient affiliation': 'text',
-  'Age at Histological Diagnosis': 'number',
-  'Weight (lbs)': 'number',
-  Gender: 'text',
-  Ethnicity: 'text',
-  'Smoking status': 'text',
-  'Pack Years': 'number',
-  'Quit Smoking Year': 'number',
-  '%GG': 'number',
-  'Tumor Location (choice=RUL)': 'checkbox',
-  'Tumor Location (choice=RML)': 'checkbox',
-  'Tumor Location (choice=RLL)': 'checkbox',
-  'Tumor Location (choice=LUL)': 'checkbox',
-  'Tumor Location (choice=LLL)': 'checkbox',
-  'Tumor Location (choice=L Lingula)': 'checkbox',
-  'Tumor Location (choice=Unknown)': 'checkbox',
-  Histology: 'text',
-  'Pathological T stage': 'text',
-  'Pathological N stage': 'text',
-  'Pathological M stage': 'text',
-  'Histopathological Grade': 'text',
-  'Lymphovascular invasion': 'text',
-  'Pleural invasion (elastic, visceral, or parietal)': 'text',
-  'EGFR mutation status': 'text',
-  'KRAS mutation status': 'text',
-  'ALK translocation status': 'text',
-  'Adjuvant Treatment': 'text',
-  Chemotherapy: 'text',
-  Radiation: 'text',
-  Recurrence: 'text',
-  'Recurrence Location': 'text',
-  'Date of Recurrence': 'date',
-  'Date of Last Known Alive': 'date',
-  'Survival Status': 'text',
-  'Date of Death': 'date',
-  'Time to Death (days)': 'number',
-  'CT Date': 'date',
-  'Days between CT and surgery': 'number',
-  'PET Date': 'date',
-};
+export const scanFieldInputTypes = [
+  { name: 'Patient ID', type: 'text' },
+  {
+    name: 'Patient affiliation',
+    type: 'text',
+    default: '',
+  },
+  {
+    name: 'Age at Histological Diagnosis',
+    type: 'number',
+    default: '',
+  },
+  {
+    name: 'Weight (lbs)',
+    type: 'number',
+    default: '',
+  },
+  {
+    name: 'Gender',
+    type: 'select',
+    default: 'Male',
+    options: ['Male', 'Female'],
+  },
+  {
+    name: 'Ethnicity',
+    type: 'select',
+    default: 'Caucasian',
+    options: [
+      'Caucasian',
+      'Asian',
+      'Black',
+      'Hispanic/Latino',
+      'Other',
+      'Not Recorded',
+    ],
+  },
+  {
+    name: 'Smoking status',
+    type: 'select',
+    default: 'Former',
+    options: ['Nonsmoker', 'Former', 'Current'],
+  },
+  {
+    name: 'Pack Years',
+    type: 'number',
+    default: '',
+  },
+  {
+    name: 'Quit Smoking Year',
+    type: 'number',
+    default: '',
+  },
+  {
+    name: '%GG',
+    type: 'select',
+    default: '0%',
+    options: [
+      '0%',
+      '>0 - 25%',
+      '25 - 50%',
+      '50 - 75%',
+      '75 - < 100%',
+      '100%',
+      'Not Assessed',
+    ],
+  },
+  {
+    name: 'Tumor Location (choice=RUL)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Tumor Location (choice=RML)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Tumor Location (choice=RLL)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Tumor Location (choice=LUL)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Tumor Location (choice=LLL)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Tumor Location (choice=L Lingula)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Tumor Location (choice=Unknown)',
+    type: 'checkbox',
+  },
+  {
+    name: 'Histology',
+    type: 'select',
+    default: 'Adenocarcinoma',
+    options: [
+      'Adenocarcinoma',
+      'Squamous cell carcinoma',
+      'NSCLC NOS (not otherwise specified)',
+    ],
+  },
+  {
+    name: 'Pathological T stage',
+    type: 'select',
+    default: 'Not Collected',
+    options: ['Not Collected', 'T1a', 'T1b', 'T2a', 'T2b', 'T3', 'T4', 'Tis'],
+  },
+  {
+    name: 'Pathological N stage',
+    type: 'select',
+    default: 'N0',
+    options: ['N0', 'N1', 'N2', 'Not Collected'],
+  },
+  {
+    name: 'Pathological M stage',
+    type: 'select',
+    default: 'M0',
+    options: ['M0', 'M1a', 'Not Collected'],
+  },
+  {
+    name: 'Histopathological Grade',
+    type: 'select',
+    default: 'G2 Moderately differentiated',
+    options: [
+      'Not Collected',
+      'G1 Well differentiated',
+      'G2 Moderately differentiated',
+      'G3 Poorly differentiated',
+      'Other, Type I: Well to moderately differentiated',
+      'Other, Type II: Moderately to poorly differentiated',
+    ],
+  },
+  {
+    name: 'Lymphovascular invasion',
+    type: 'select',
+    default: 'Absent',
+    options: ['Not Collected', 'Absent', 'Present'],
+  },
+  {
+    name: 'Pleural invasion (elastic, visceral, or parietal)',
+    type: 'select',
+    default: 'No',
+    options: ['Not Collected', 'No', 'Yes'],
+  },
+  {
+    name: 'EGFR mutation status',
+    type: 'select',
+    default: 'Wildtype',
+    options: ['Not collected', 'Wildtype', 'Mutant'],
+  },
+  {
+    name: 'KRAS mutation status',
+    type: 'select',
+    default: 'Wildtype',
+    options: ['Not collected', 'Wildtype', 'Mutant'],
+  },
+  {
+    name: 'ALK translocation status',
+    type: 'select',
+    default: 'Wildtype',
+    options: ['Not collected', 'Wildtype', 'Mutant'],
+  },
+  {
+    name: 'Adjuvant Treatment',
+    type: 'select',
+    default: 'No',
+    options: ['No', 'Yes'],
+  },
+  {
+    name: 'Chemotherapy',
+    type: 'select',
+    default: 'No',
+    options: ['No', 'Yes'],
+  },
+  { name: 'Radiation', type: 'select', default: 'No', options: ['No', 'Yes'] },
+  { name: 'Recurrence', type: 'select', default: 'No', options: ['No', 'Yes'] },
+  {
+    name: 'Recurrence Location',
+    type: 'select',
+    default: 'distant',
+    options: ['distant', 'regional', 'N/A'],
+  },
+  {
+    name: 'Date of Recurrence',
+    type: 'date',
+  },
+  {
+    name: 'Date of Last Known Alive',
+    type: 'date',
+  },
+  {
+    name: 'Survival Status',
+    type: 'select',
+    default: 'Alive',
+    options: ['Alive', 'Dead'],
+  },
+  {
+    name: 'Date of Death',
+    type: 'date',
+  },
+  {
+    name: 'Time to Death (days)',
+    type: 'number',
+    default: '',
+  },
+  {
+    name: 'CT Date',
+    type: 'date',
+  },
+  {
+    name: 'Days between CT and surgery',
+    type: 'number',
+    default: '',
+  },
+  {
+    name: 'PET Date',
+    type: 'date',
+  },
+] as const;
 
 export type Field = keyof Scan;
 
@@ -95,7 +275,7 @@ function createKeys(keyRecord: Record<keyof Scan, any>): (keyof Scan)[] {
 }
 
 export const fields = createKeys({
-  'Case ID': 1,
+  'Patient ID': 1,
   'Patient affiliation': 1,
   'Age at Histological Diagnosis': 1,
   'Weight (lbs)': 1,

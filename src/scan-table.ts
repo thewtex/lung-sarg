@@ -65,11 +65,11 @@ class LargeDataModel extends DataModel {
   }
 
   getRowId(row: number) {
-    return this.tableData[row]?.['Case ID'];
+    return this.tableData[row]?.['Patient ID'];
   }
 
   getRowNumber(id: ScanId) {
-    return this.tableData.findIndex((row) => row['Case ID'] === id);
+    return this.tableData.findIndex((row) => row['Patient ID'] === id);
   }
 
   data(
