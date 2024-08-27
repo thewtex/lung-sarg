@@ -15,7 +15,7 @@ import {
   ScanId,
   FEATURE_KEYS,
   Feature,
-  AddPatientFields,
+  Scan,
 } from '../scan.types.js';
 import * as ScanSelections from './scan-selections.js';
 import { Page, getPage } from '../pages.js';
@@ -53,7 +53,7 @@ type Context = {
   featureViewCount: number;
   plotParameters: { leftBiomarker: Field; bottomBiomarker: Field };
   focusScan?: { id: ScanId }; // fresh object every event
-  scans: AddPatientFields[];
+  scans: Scan[];
   page: Page;
 };
 
@@ -84,7 +84,7 @@ const machine = setup({
         }
       | {
           type: 'PATIENT_ADD';
-          fields: AddPatientFields;
+          fields: Scan;
         }
       | {
           type: 'NAVIGATE';

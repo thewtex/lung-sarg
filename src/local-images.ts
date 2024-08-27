@@ -29,9 +29,11 @@ export class LocalImages extends LitElement {
   getFiles() {
     const images = this.shadowRoot?.querySelectorAll('local-image');
     if (!images) return [];
-    return Array.from(images).map((element) => {
-      return element.getFiles();
-    });
+    return Array.from(images)
+      .map((element) => {
+        return element.getFiles();
+      })
+      .filter((f) => f != null);
   }
 
   render() {
