@@ -9,11 +9,17 @@ importers:
   .:
     dependencies:
       '@itk-viewer/element':
-        specifier: ^0.6.4
-        version: 0.6.4(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@shoelace-style/shoelace@2.16.0(@types/react@18.3.4))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)
+        specifier: ^0.6.5
+        version: 0.6.5(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@shoelace-style/shoelace@2.16.0(@types/react@18.3.4))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)
       '@itk-viewer/io':
         specifier: ^0.4.3
         version: 0.4.3
+      '@itk-wasm/dicom':
+        specifier: ^7.2.0
+        version: 7.2.0
+      '@itk-wasm/image-io':
+        specifier: ^1.3.0
+        version: 1.3.0
       '@lit-labs/router':
         specifier: ^0.1.3
         version: 0.1.3
@@ -825,8 +831,8 @@ packages:
   '@itk-viewer/blosc-zarr@0.2.3':
     resolution: {integrity: sha512-70CVcQurIEGDxM8nGkFQPtOoARywMIkE6NrBwt2SwsMocLBQ3KXW4/2+KGbqXymf34qrgdzifR7ezg0kWggBpw==}
 
-  '@itk-viewer/element@0.6.4':
-    resolution: {integrity: sha512-ht957h2v/Q1ixsugCZMQ6sHKlIj7V0zoewMG6xdMOZLOcQyRCviaWf+/+eawCJHomhkZv1noZEVDa6GhgxbVfA==}
+  '@itk-viewer/element@0.6.5':
+    resolution: {integrity: sha512-7qhaXB6AmjfCPO8WuWPViYZxJh5LEdcgMj3uK+wqaOflLWR+5Vek58DFU/S0LTN74A5YQ0u3OzYQcZXxmBeKEQ==}
     peerDependencies:
       '@shoelace-style/shoelace': ^2.16.0
     peerDependenciesMeta:
@@ -839,8 +845,8 @@ packages:
   '@itk-viewer/remote-viewport@0.2.20':
     resolution: {integrity: sha512-NdOvCgR+t3GMimnOTDJa61GhBQqKVxtdR+fzJj6StYBTt7TdoPVas5gJnBwlsrGHJ8SZ/dcH2DkHu2rSdPCR0g==}
 
-  '@itk-viewer/transfer-function-editor@1.8.3':
-    resolution: {integrity: sha512-I4FpmJyFV1U8NA0Kv17Yw0jYRSIrzq7jPv04736ox3QkFRrJQWi7cAWSCcujr/WFOLj+hrMFcloJlgIBo5Apvw==}
+  '@itk-viewer/transfer-function-editor@1.8.4':
+    resolution: {integrity: sha512-BKfs0/4EMT1U187PfxFi9qhlhhsOO6IZkfzL5kT1DYxUE061u0v6s9Qt8OGNro0vsYROXz2CJyXFShF5J9v6RQ==}
 
   '@itk-viewer/utils@0.1.4':
     resolution: {integrity: sha512-4q7d4nQWPa+CBAr1smlQ2i5qNkGOn10iIPrwwLvmgqDR+9Krwdv4HXHenJayYqA9WFNfRgGVqU9z5/y4UEqP/A==}
@@ -848,15 +854,21 @@ packages:
   '@itk-viewer/viewer@0.6.1':
     resolution: {integrity: sha512-9Zrw+de3ybLuQJPKsWSGsys3WMbMXO3FR6BUpzb/Ub/p7k3FW8T2rS+ZolCfjxAG+OTOfXH2gXlxy8zUeIxqAQ==}
 
-  '@itk-viewer/vtkjs@0.4.4':
-    resolution: {integrity: sha512-Ly/EjLX4FTUPJD/cUg3EFkLpmuBGX2vblyFx7uKFhQnqaew7uoqtMluwYWvti1TCOK1Gn+j4Imoj2VytkOoNqg==}
+  '@itk-viewer/vtkjs@0.4.5':
+    resolution: {integrity: sha512-MFvrNwtwXeBBfihQb+sK5KAsTXxcrMiQSKmdjJtzZEIVkfLSyTzxZRacFD2j0tGJ6DfEusCYesgXn2BDDuX7ug==}
 
   '@itk-wasm/dam@1.1.1':
     resolution: {integrity: sha512-7+9L3lrLMKF4y6B6qjs8GqfbpxT0waOJUM14NdMNEA6M+BoBS8fdHREhQHo2s7QMA5O7I+Jv7m+dyqlisGnbdQ==}
     hasBin: true
 
+  '@itk-wasm/dicom@7.2.0':
+    resolution: {integrity: sha512-ynCYdrkoTIJVYGlLZyKumhPd6LqJ3Dx9iDG9KGNfN3lMNCSwZNMbMXsnzyICu0EtnEevhDUijV0r8VjZrgVnaQ==}
+
   '@itk-wasm/htj2k@2.1.0':
     resolution: {integrity: sha512-22+mWgXr/LYRCqzzfIJ5il5bgYdJjPD5jiP4XXPvSgCjp48bui5zvZSkvMmXy89bJbVinUB1O6KHuB3K0MUong==}
+
+  '@itk-wasm/image-io@1.3.0':
+    resolution: {integrity: sha512-EacjXsMi7sqgyvRetWvX+JHMXlzd00832LQcKlyn+rPs02hdAhjkcxPtIhmtrMLUUgYpuNRoin9aLDGEMNFmog==}
 
   '@jridgewell/gen-mapping@0.3.5':
     resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
@@ -1144,8 +1156,8 @@ packages:
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
-  '@types/webxr@0.5.19':
-    resolution: {integrity: sha512-4hxA+NwohSgImdTSlPXEqDqqFktNgmTXQ05ff1uWam05tNGroCMp4G+4XVl6qWm1p7GQ/9oD41kAYsSssF6Mzw==}
+  '@types/webxr@0.5.20':
+    resolution: {integrity: sha512-JGpU6qiIJQKUuVSKx1GtQnHJGxRjtfGIhzO2ilq43VZZS//f1h1Sgexbdk+Lq+7569a6EYhOWrUpIruR/1Enmg==}
 
   '@web3-storage/car-block-validator@1.2.0':
     resolution: {integrity: sha512-KKQ/M5WtpH/JlkX+bQYKzdG4azmSF495T7vpewje2xh7MBh1d94/BLblxCcLM/larWvXDxOkbAyTTdlECAAuUw==}
@@ -1313,8 +1325,8 @@ packages:
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
-  caniuse-lite@1.0.30001651:
-    resolution: {integrity: sha512-9Cf+Xv1jJNe1xPZLGuUXLNkE1BoDkqRqYyFJ9TDYSqhduqA4hu4oR9HluGoWYQC/aj8WHjsGVV+bwkh0+tegRg==}
+  caniuse-lite@1.0.30001653:
+    resolution: {integrity: sha512-XGWQVB8wFQ2+9NZwZ10GxTYC5hk0Fa+q8cSkr0tgvMhYhMHP/QC+WTgrePMDBWiWc/pV+1ik82Al20XOK25Gcw==}
 
   cborg@4.2.3:
     resolution: {integrity: sha512-XBFbEJ6WMfn9L7woc2t+EzOxF8vGqddoopKBbrhIvZBt2WIUgSlT8xLmM6Aq1xv8eWt4yOSjwxWjYeuHU3CpJA==}
@@ -2172,9 +2184,6 @@ packages:
 
   string_decoder@1.1.1:
     resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
-
-  string_decoder@1.3.0:
-    resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
 
   strip-dirs@2.1.0:
     resolution: {integrity: sha512-JOCxOeKLm2CAS73y/U4ZeZPTkE+gNVCzKt7Eox84Iej1LT/2pTWYpZKJuxwQpvX1LiZb1xokNR7RLfuBAa7T3g==}
@@ -3317,15 +3326,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/element@0.6.4(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@shoelace-style/shoelace@2.16.0(@types/react@18.3.4))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)':
+  '@itk-viewer/element@0.6.5(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@shoelace-style/shoelace@2.16.0(@types/react@18.3.4))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)':
     dependencies:
       '@itk-viewer/arcball': 0.0.1
       '@itk-viewer/io': 0.4.3
       '@itk-viewer/remote-viewport': 0.2.20
-      '@itk-viewer/transfer-function-editor': 1.8.3
+      '@itk-viewer/transfer-function-editor': 1.8.4
       '@itk-viewer/utils': 0.1.4
       '@itk-viewer/viewer': 0.6.1
-      '@itk-viewer/vtkjs': 0.4.4(@babel/preset-env@7.25.4(@babel/core@7.25.2))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)
+      '@itk-viewer/vtkjs': 0.4.5(@babel/preset-env@7.25.4(@babel/core@7.25.2))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)
       '@lit/context': 1.1.2
       gl-matrix: 3.4.3
       itk-wasm: 1.0.0-b.160
@@ -3372,7 +3381,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@itk-viewer/transfer-function-editor@1.8.3': {}
+  '@itk-viewer/transfer-function-editor@1.8.4': {}
 
   '@itk-viewer/utils@0.1.4':
     dependencies:
@@ -3389,10 +3398,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@itk-viewer/vtkjs@0.4.4(@babel/preset-env@7.25.4(@babel/core@7.25.2))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)':
+  '@itk-viewer/vtkjs@0.4.5(@babel/preset-env@7.25.4(@babel/core@7.25.2))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)':
     dependencies:
       '@itk-viewer/io': 0.4.3
-      '@itk-viewer/transfer-function-editor': 1.8.3
+      '@itk-viewer/transfer-function-editor': 1.8.4
       '@itk-viewer/viewer': 0.6.1
       '@kitware/vtk.js': 30.10.0(@babel/preset-env@7.25.4(@babel/core@7.25.2))(autoprefixer@10.4.20(postcss@8.4.41))(webpack@5.94.0)(wslink@2.1.2)
       gl-matrix: 3.4.3
@@ -3416,9 +3425,23 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@itk-wasm/dicom@7.2.0':
+    dependencies:
+      itk-wasm: 1.0.0-b.178
+    transitivePeerDependencies:
+      - debug
+
   '@itk-wasm/htj2k@2.1.0':
     dependencies:
       itk-wasm: 1.0.0-b.178
+    transitivePeerDependencies:
+      - debug
+
+  '@itk-wasm/image-io@1.3.0':
+    dependencies:
+      axios: 1.7.5
+      itk-wasm: 1.0.0-b.178
+      mime-types: 2.1.35
     transitivePeerDependencies:
       - debug
 
@@ -3448,7 +3471,7 @@ snapshots:
     dependencies:
       '@babel/preset-env': 7.25.4(@babel/core@7.25.2)
       '@babel/runtime': 7.22.11
-      '@types/webxr': 0.5.19
+      '@types/webxr': 0.5.20
       autoprefixer: 10.4.20(postcss@8.4.41)
       commander: 9.2.0
       d3-scale: 4.0.2
@@ -3733,7 +3756,7 @@ snapshots:
 
   '@types/trusted-types@2.0.7': {}
 
-  '@types/webxr@0.5.19': {}
+  '@types/webxr@0.5.20': {}
 
   '@web3-storage/car-block-validator@1.2.0':
     dependencies:
@@ -3860,7 +3883,7 @@ snapshots:
   autoprefixer@10.4.20(postcss@8.4.41):
     dependencies:
       browserslist: 4.23.3
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001653
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.1
@@ -3929,7 +3952,7 @@ snapshots:
 
   browserslist@4.23.3:
     dependencies:
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001653
       electron-to-chromium: 1.5.13
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
@@ -3952,7 +3975,7 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
-  caniuse-lite@1.0.30001651: {}
+  caniuse-lite@1.0.30001653: {}
 
   cborg@4.2.3: {}
 
@@ -4717,7 +4740,7 @@ snapshots:
   readable-stream@3.6.2:
     dependencies:
       inherits: 2.0.4
-      string_decoder: 1.3.0
+      string_decoder: 1.1.1
       util-deprecate: 1.0.2
 
   readdirp@3.6.0:
@@ -4864,10 +4887,6 @@ snapshots:
   string_decoder@1.1.1:
     dependencies:
       safe-buffer: 5.1.2
-
-  string_decoder@1.3.0:
-    dependencies:
-      safe-buffer: 5.2.1
 
   strip-dirs@2.1.0:
     dependencies:

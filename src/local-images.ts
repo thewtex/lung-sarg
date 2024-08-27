@@ -4,6 +4,8 @@ import { repeat } from 'lit/directives/repeat.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
+import './local-image.js';
+
 @customElement('local-images')
 export class LocalImages extends LitElement {
   nextFileId = 1;
@@ -25,48 +27,55 @@ export class LocalImages extends LitElement {
   }
 
   getFiles() {
-    return this.files.map((id) => {
-      const input = this.shadowRoot?.querySelector(
-        `[name="files-${id}"]`,
-      ) as HTMLInputElement;
-      return input.files;
+    const images = this.shadowRoot?.querySelectorAll('local-image');
+    if (!images) return [];
+    return Array.from(images).map((element) => {
+      return element.getFiles();
     });
   }
 
   render() {
     return html`
       <h2>Images</h2>
-      ${repeat(
-        this.files,
-        (id) => id,
-        (id) => html`
-                <div class="file-input">
-                  <span>
-                    <sl-button @click=${this.selectFiles}>Select Image Files</sl-button>
-                    <input name="files-${id}" type="file" multiple hidden/></input>
-                  </span>
-                  <sl-icon-button
-                    @click="${this.removeFile(id)}"
-                    name="x-lg"
-                    label="Delete"
-                    style="font-size: 2rem; padding-left: .5rem"
-                  ></sl-icon-button>
-                </div>
-              `,
-      )}
+      <div class="images">
+        ${repeat(
+          this.files,
+          (id) => id,
+          (id) => html`
+            <div class="file-input">
+              <div>
+                <sl-icon-button
+                  @click="${this.removeFile(id)}"
+                  name="x-lg"
+                  label="Delete"
+                  style="font-size: 2rem;"
+                ></sl-icon-button>
+              </div>
+              <local-image class="fill"></local-image>
+            </div>
+          `,
+        )}
+      </div>
       <sl-icon-button
         @click="${this.addFile()}"
         name="plus-lg"
         label="Add"
-        style="font-size: 2rem;"
+        style="font-size: 2.5rem;"
       ></sl-icon-button>
     `;
   }
 
   static styles = css`
+    .images {
+      display: grid;
+      gap: 1rem;
+    }
     .file-input {
       display: flex;
-      align-items: center;
+    }
+    .fill {
+      flex: 1;
+      height: 400px;
     }
   `;
 }
