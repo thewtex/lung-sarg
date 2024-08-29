@@ -11,10 +11,11 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
 
 import { appContext } from './state/app.machine.js';
-import { AddPatientFields, scanFieldInputTypes } from './scan.types.js';
+import { Scan, scanFieldInputTypes } from './scan.types.js';
 import { spacesToUnderscores } from './utils/shoelace.js';
 import './local-images.js';
 import { LocalImages } from './local-images.js';
+import { sendStudy } from './study-api.js';
 
 const validateId = (id: string) => {
   //if id has numbers, then return true
@@ -120,9 +121,10 @@ export class ProcessingRoot extends LitElement {
     event.preventDefault();
     const fields = serialize(
       event.target as HTMLFormElement,
-    ) as unknown as AddPatientFields;
+    ) as unknown as Scan;
+    const files = this.images.value!.getFiles();
+    sendStudy(fields, files);
     this.stateService.value?.service.send({ type: 'PATIENT_ADD', fields });
-    // console.log(this.images.value?.getFiles());
     this.patientAdded = true;
   }
 
@@ -141,7 +143,7 @@ export class ProcessingRoot extends LitElement {
               Add Study Data for Patient
             </sl-button>
             <span .hidden=${!this.patientAdded} class="submit-message">
-              Patient Added!
+              Study Added!
             </span>
           </div>
         </form>
