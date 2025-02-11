@@ -17,10 +17,10 @@ import './individual-root.js';
 import './processing-root.js';
 import { PAGES } from './pages.js';
 
-const APP_TITLE = 'Radiogenomic' as const;
+const APP_TITLE = 'Lung SARG' as const;
 
-@customElement('radiogenomic-app')
-export class RadiogenomicApp extends LitElement {
+@customElement('lung-sarg-app')
+export class LungSargApp extends LitElement {
   // @ts-ignore
   private provider = new ContextProvider(this, appContext, {
     service: createService(),
@@ -95,6 +95,6 @@ export class RadiogenomicApp extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'radiogenomic-app': RadiogenomicApp;
+    'lung-sarg-app': LungSargApp;
   }
 }
