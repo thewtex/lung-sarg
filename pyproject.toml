@@ -31,7 +31,7 @@ Issues = "https://github.com/open-radiogenomics/lung-sarg/issues"
 CI = "https://github.com/open-radiogenomics/lung-sarg/actions"
 
 [project.optional-dependencies]
-dev = ["dagster-webserver==1.7.16", "ruff"]
+server = ["dagster-webserver==1.7.16", "ruff"]
 
 [build-system]
 requires = ["setuptools"]
@@ -60,11 +60,20 @@ lung-sarg = { path = ".", editable = true }
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
-dev = { features = ["dev"], solve-group = "default" }
+server = { features = ["server"], solve-group = "default" }
+client = { features = ["client"], solve-group = "default" }
 
 [tool.pixi.tasks]
 stage-samples = { cmd = "dagster job execute -j stage_idc_nsclc_radiogenomic_samples -m lung_sarg", description = "Stage IDC NSCLC Radiogenomic Samples" }
 clean = { cmd = "rm -rf data/*.parquet data/*.duckdb dbt/target dbt/dbt_packages dbt/logs", description = "Clean the project artifacts" }
 
-[tool.pixi.feature.dev.tasks]
+[tool.pixi.feature.server.tasks]
 dev = { cmd = "dagster dev", description = "Run the development environment" }
+
+[tool.pixi.feature.client.dependencies]
+pnpm = ">=9.15.3,<10"
+nodejs = ">=22.6.0,<23"
+
+[tool.pixi.feature.client.tasks]
+pnpm-install = { cmd = "pnpm install", cwd = "client", description = "Install Node.js dependencies" }
+dev = { cmd = "pnpm dev", cwd = "client", depends-on = ["pnpm-install"], description = "Run the development environment" }
