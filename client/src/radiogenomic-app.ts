@@ -48,6 +48,12 @@ export class RadiogenomicApp extends LitElement {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  firstUpdated() {
+    if (window.location.pathname === '/index.html') {
+      window.history.replaceState(null, '', '/');
+    }
+  }
+
   render() {
     return html`
       <nav-menu
