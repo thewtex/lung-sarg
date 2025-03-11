@@ -41,6 +41,9 @@ importers:
       '@lumino/widgets':
         specifier: ^2.5.0
         version: 2.5.0
+      '@revolist/revogrid':
+        specifier: ^4.13.3
+        version: 4.13.3
       '@shoelace-style/shoelace':
         specifier: ^2.16.0
         version: 2.16.0(@types/react@18.3.4)
@@ -1038,6 +1041,9 @@ packages:
 
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
+
+  '@revolist/revogrid@4.13.3':
+    resolution: {integrity: sha512-7gCoTSmw6RZrNUbQNPK+j0HMdVHQQ6dvvjS1oqmQC1KfsOYpXofxXordXrZ1/yAgKQuMJd+MyZCBX2dbtk2YIQ==}
 
   '@rollup/rollup-android-arm-eabi@4.21.0':
     resolution: {integrity: sha512-WTWD8PfoSAJ+qL87lE7votj3syLavxunWhzCnx3XFxFiI/BA/r3X7MUM8dVrH8rb2r4AiO8jJsr3ZjdaftmnfA==}
@@ -3667,6 +3673,8 @@ snapshots:
   '@protobufjs/pool@1.1.0': {}
 
   '@protobufjs/utf8@1.1.0': {}
+
+  '@revolist/revogrid@4.13.3': {}
 
   '@rollup/rollup-android-arm-eabi@4.21.0':
     optional: true

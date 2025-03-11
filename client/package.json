@@ -20,6 +20,7 @@
     "@lumino/domutils": "^2.0.2",
     "@lumino/dragdrop": "^2.1.5",
     "@lumino/widgets": "^2.5.0",
+    "@revolist/revogrid": "^4.13.3",
     "@shoelace-style/shoelace": "^2.16.0",
     "itk-wasm": "1.0.0-b.178",
     "lit": "^3.2.0",
